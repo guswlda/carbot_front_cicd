@@ -15,7 +15,7 @@ const AdminDashboard = () => {
     // 백엔드에서 고객 데이터 가져오기
     const fetchCustomers = async () => {
       try {
-        const response = await axios.get("http://localhost:8001/all_users");
+        const response = await axios.get("http://222.112.27.120:8001/all_users");
         setCustomers(response.data.users); // 응답 데이터에서 사용자 배열 설정
       } catch (error) {
         console.error("Error fetching customer data:", error);

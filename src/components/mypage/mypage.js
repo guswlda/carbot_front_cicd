@@ -29,7 +29,7 @@ function MyPage() {
     const fetchConsultationData = async () => {
       try {
         const response = await fetch(
-          `http://localhost:8001/consultations/${userId}`
+          `http://222.112.27.120:8001/consultations/${userId}`
         );
         const data = await response.json();
         setConsultationData(data);

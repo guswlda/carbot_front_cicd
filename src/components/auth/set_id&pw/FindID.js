@@ -28,7 +28,7 @@ const FindId = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:8001/find_id",
+        "http://222.112.27.120:8001/find_id",
         findIdData
       );
       setUserId(response.data.userId); // 서버 응답에서 userId 가져오기

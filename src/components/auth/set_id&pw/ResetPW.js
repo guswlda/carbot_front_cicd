@@ -16,7 +16,7 @@ const ResetPW = () => {
     if (password === confirmPassword) {
       try {
         // 이메일을 백엔드로 전송
-        const response = await axios.post("http://localhost:8001/update_pass", {
+        const response = await axios.post("http://222.112.27.120:8001/update_pass", {
           customer_id: customer_id,
           new_password: password, // 새 비밀번호
         });

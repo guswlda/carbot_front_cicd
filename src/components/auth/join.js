@@ -56,7 +56,7 @@ const Join = () => {
 
   const signupcomplete = () => {
     axios
-      .post('http://localhost:8001/sign_up', {
+      .post('http://222.112.27.120:8001/sign_up', {
         customer_id: formData.id,
         customer_pw: formData.password,
         customer_email: formData.email,

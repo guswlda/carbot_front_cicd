@@ -18,7 +18,7 @@ const NoticeManagement = () => {
   // 공지사항 데이터를 백엔드에서 가져오는 함수
   const fetchNotices = async () => {
     try {
-      const response = await axios.get("http://localhost:8001/notices");
+      const response = await axios.get("http://222.112.27.120:8001/notices");
       setNotices(response.data); // 응답 데이터로 상태 업데이트
     } catch (error) {
       console.error("Error fetching notices:", error);
@@ -29,7 +29,7 @@ const NoticeManagement = () => {
   const handleFormSubmit = async (newNotice) => {
     try {
       await axios.post(
-        `http://localhost:8001/add_notice/${admin_id}`,
+        `http://222.112.27.120:8001/add_notice/${admin_id}`,
         newNotice
       );
       fetchNotices(); // 공지사항 추가 후 최신 데이터 다시 가져오기
@@ -42,7 +42,7 @@ const NoticeManagement = () => {
   // 공지사항 삭제 후 리스트 업데이트
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:8001/notices/${id}`);
+      await axios.delete(`http://222.112.27.120:8001/notices/${id}`);
       fetchNotices(); // 삭제 후 공지사항 데이터 다시 가져오기
       setSelectedNotice(null);
     } catch (error) {

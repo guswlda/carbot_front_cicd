@@ -10,7 +10,7 @@ function Proposal({ onClose }) {
   useEffect(() => {
     const fetchDealerName = async () => {
       try {
-        const response = await axios.get("http://localhost:8001/dealer/1"); // dealer_no가 1인 딜러 데이터 가져오기
+        const response = await axios.get("http://222.112.27.120:8001/dealer/1"); // dealer_no가 1인 딜러 데이터 가져오기
         setDealerName(response.data.dealerName); // 딜러 이름 저장
       } catch (error) {
         console.error("Error fetching dealer name:", error);
@@ -37,7 +37,7 @@ function Proposal({ onClose }) {
     try {
       // Backend로 POST 요청
       const response = await axios.post(
-        "http://localhost:8001/submit_consult",
+        "http://222.112.27.120:8001/submit_consult",
         {
           userId: userId, // 로그인된 사용자 ID
           consult_content: consultContent, // 고객 요청 사항

@@ -18,7 +18,7 @@ const NoticeForm = ({ onClose, onSubmit, admin_id }) => {
 
     try {
       await axios.post(
-        `http://localhost:8001/add_notice/${admin_id}`,
+        `http://222.112.27.120:8001/add_notice/${admin_id}`,
         newNotice
       );
       onSubmit(newNotice);

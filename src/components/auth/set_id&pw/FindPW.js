@@ -32,7 +32,7 @@ const FindPassword = () => {
     if (handleValidation()) {
       try {
         const verifyResponse = await axios.post(
-          "http://localhost:8001/verify_user",
+          "http://222.112.27.120:8001/verify_user",
           {
             customer_id: id,
             customer_email: email,
@@ -41,7 +41,7 @@ const FindPassword = () => {
 
         if (verifyResponse.status === 200) {
           const response = await axios.post(
-            "http://localhost:8001/send_email",
+            "http://222.112.27.120:8001/send_email",
             {
               customor_email: email, // userEmail은 사용자 입력 이메일 주소 변수
             }
@@ -66,7 +66,7 @@ const FindPassword = () => {
     } else {
       try {
         const response = await axios.post(
-          "http://localhost:8001/verify_email",
+          "http://222.112.27.120:8001/verify_email",
           {
             customer_email: email,
             code: verificationCode,

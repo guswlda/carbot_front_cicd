@@ -10,7 +10,7 @@ const Membership = ({ customer, onClose }) => {
     const fetchDetailedInfo = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8001/detail/${customer.customer_id}`
+          `http://222.112.27.120:8001/detail/${customer.customer_id}`
         );
         setDetailedInfo(response.data.user); // 가져온 추가 정보 저장
       } catch (error) {

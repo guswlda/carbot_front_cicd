@@ -9,7 +9,7 @@ const ConsultationManagement = () => {
   useEffect(() => {
     // 백엔드의 consultUsers API 호출
     axios
-      .get('http://localhost:8001/api/admin/consultUsers')
+      .get('http://222.112.27.120:8001/api/admin/consultUsers')
       .then((response) => {
         setConsultations(response.data.users);
       })
@@ -21,7 +21,7 @@ const ConsultationManagement = () => {
   const handleConsultationClick = async (consultationId) => {
     try {
       const response = await axios.get(
-        `http://localhost:8001/api/admin/consultUsers/${consultationId}`
+        `http://222.112.27.120:8001/api/admin/consultUsers/${consultationId}`
       );
       setSelectedConsultation(response.data.consultation);
     } catch (error) {

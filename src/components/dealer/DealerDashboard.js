@@ -17,7 +17,7 @@ const DealerDashboard = () => {
       const dealerId = sessionStorage.getItem("userId"); // 세션에서 dealerId 가져오기
       try {
         const response = await axios.get(
-          `http://localhost:8001/dealer_name/${dealerId}`
+          `http://222.112.27.120:8001/dealer_name/${dealerId}`
         );
         setDealerName(response.data.dealerName); // 딜러 이름 저장
       } catch (error) {
@@ -35,7 +35,7 @@ const DealerDashboard = () => {
 
   const fetchApplications = async () => {
     try {
-      const response = await axios.get("http://localhost:8001/dealer_consult");
+      const response = await axios.get("http://222.112.27.120:8001/dealer_consult");
       setApplications(response.data);
       setFilteredApplications(
         response.data.filter((app) => app.consult_process === "상담 시작 전")
@@ -60,7 +60,7 @@ const DealerDashboard = () => {
     if (application.consult_process === "상담 시작 전") {
       try {
         await axios.put(
-          `http://localhost:8001/dealer_consult/${application.custom_consult_no}`,
+          `http://222.112.27.120:8001/dealer_consult/${application.custom_consult_no}`,
           { consult_process: "진행 중" }
         );
         alert("상태가 진행 중으로 변경되었습니다.");
@@ -88,7 +88,7 @@ const DealerDashboard = () => {
     if (isEditing) {
       try {
         await axios.put(
-          `http://localhost:8001/dealer_consult/${selectedApplication.custom_consult_no}`,
+          `http://222.112.27.120:8001/dealer_consult/${selectedApplication.custom_consult_no}`,
           { consult_content: memo }
         );
         alert("메모가 수정되었습니다.");
@@ -99,13 +99,13 @@ const DealerDashboard = () => {
       }
     } else {
       try {
-        await axios.post("http://localhost:8001/add_consult_memo", {
+        await axios.post("http://222.112.27.120:8001/add_consult_memo", {
           consult_content: memo,
           consult_hist_status: true,
           custom_consult_no: selectedApplication.custom_consult_no,
         });
         await axios.put(
-          `http://localhost:8001/dealer_consult/${selectedApplication.custom_consult_no}`,
+          `http://222.112.27.120:8001/dealer_consult/${selectedApplication.custom_consult_no}`,
           { consult_process: "상담 완료" }
         );
         alert("메모가 추가되고 상담 상태가 완료로 변경되었습니다.");
