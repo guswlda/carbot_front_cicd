@@ -19,9 +19,6 @@ COPY . .
 # 2단계: Nginx 설정 및 Node.js 애플리케이션 실행
 FROM nginx:alpine
 
-# Nginx 설정 파일 복사
-COPY nginx.conf /etc/nginx/nginx.conf
-
 # Node.js 애플리케이션을 Nginx의 기본 루트 경로로 복사
 COPY --from=build /usr/src/app /usr/share/nginx/html
 
