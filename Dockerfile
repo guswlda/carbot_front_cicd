@@ -14,7 +14,7 @@ RUN npm install
 COPY . .
 
 # 외부에 노출할 포트 설정
-EXPOSE 3001
+EXPOSE 80
 
-# 애플리케이션 실행 명령어
-CMD ["node", "src/index.js"]  # src/index.js로 수정했지만 실제 파일 경로에 맞게 수정하세요
+# 애플리케이션 실행 명령어 (쉼표와 대괄호 사용에 주의)
+CMD ["node", "src/index.js"]
