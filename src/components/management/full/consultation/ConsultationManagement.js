@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import './ConsultationManagement.css';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import "./ConsultationManagement.css";
 
 const ConsultationManagement = () => {
   const [consultations, setConsultations] = useState([]);
@@ -9,12 +9,12 @@ const ConsultationManagement = () => {
   useEffect(() => {
     // 백엔드의 consultUsers API 호출
     axios
-      .get('http://222.112.27.120:8001/api/admin/consultUsers')
+      .get("http://222.112.27.120:8001/api/admin/consultUsers")
       .then((response) => {
         setConsultations(response.data.users);
       })
       .catch((error) => {
-        console.error('Error fetching consultations data:', error);
+        console.error("Error fetching consultations data:", error);
       });
   }, []);
 
@@ -25,7 +25,7 @@ const ConsultationManagement = () => {
       );
       setSelectedConsultation(response.data.consultation);
     } catch (error) {
-      console.error('Error fetching consultation details:', error);
+      console.error("Error fetching consultation details:", error);
     }
   };
 
@@ -34,9 +34,9 @@ const ConsultationManagement = () => {
   };
 
   return (
-    <div className='consultation-management-container'>
-      <h2 className='consultation-management-title'>상담관리</h2>
-      <table className='consultation-table'>
+    <div className="consultation-management-container">
+      <h2 className="consultation-management-title">상담관리</h2>
+      <table className="consultation-table">
         <thead>
           <tr>
             <th>번호</th>
@@ -51,7 +51,7 @@ const ConsultationManagement = () => {
               <td>{index + 1}</td>
               <td>
                 <button
-                  className='consultation-customer-name'
+                  className="consultation-customer-name"
                   onClick={() =>
                     handleConsultationClick(consultation.custom_consult_no)
                   }

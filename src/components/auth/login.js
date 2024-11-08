@@ -65,13 +65,12 @@ const Login = () => {
             setIsLoggedIn(true);
             sessionStorage.setItem("userId", userId); // userId 저장
             sessionStorage.setItem("userType", userType); // userType 저장
-            alert('로그인에 성공했습니다.');
-            if (userType === 'dealer') {
-              navigate('/DealerDashboard');
-            } else if (userType == 'customer') {
-              navigate('/Mypage');
+            alert("로그인에 성공했습니다.");
+            if (userType === "dealer") {
+              navigate("/DealerDashboard");
+            } else if (userType == "customer") {
+              navigate("/Mypage");
             }
-
           } else {
             console.error("Invalid token format");
           }

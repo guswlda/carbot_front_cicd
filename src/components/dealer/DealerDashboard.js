@@ -1,129 +1,153 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./DealerDashboard.css";
-import { MdOutlineClose } from "react-icons/md";
+import MemoModal from "./modal/memoModal";
 
 const DealerDashboard = () => {
-  const [dealerName, setDealerName] = useState(""); // 딜러 이름 상태 추가
-  const [selectedTab, setSelectedTab] = useState("상담 시작 전"); // 초기 화면을 "상담 시작 전"으로 설정
+  const [dealerName, setDealerName] = useState("딜러 이름 로딩 중...");
+  const [dealerNo, setDealerNo] = useState(null);
+  const [selectedTab, setSelectedTab] = useState("상담 시작 전");
   const [applications, setApplications] = useState([]);
-  const [filteredApplications, setFilteredApplications] = useState([]);
-  const [selectedApplication, setSelectedApplication] = useState(null);
-  const [memo, setMemo] = useState("");
-  const [isEditing, setIsEditing] = useState(false);
+  const [isMemoModalOpen, setIsMemoModalOpen] = useState(false);
+  const [memoContent, setMemoContent] = useState("");
+  const [selectedConsult, setSelectedConsult] = useState(null); // 선택된 상담 데이터
+  const [consultDetails, setConsultDetails] = useState(null); // 신청자 정보 및 고객 요청사항
 
+  // 딜러 이름 가져오기
   useEffect(() => {
     const fetchDealerName = async () => {
-      const dealerId = sessionStorage.getItem("userId"); // 세션에서 dealerId 가져오기
+      const dealerId = sessionStorage.getItem("userId");
       try {
         const response = await axios.get(
           `http://222.112.27.120:8001/dealer_name/${dealerId}`
         );
-        setDealerName(response.data.dealerName); // 딜러 이름 저장
+        setDealerName(response.data.dealerName);
+        setDealerNo(response.data.dealerNo);
       } catch (error) {
-        console.error("Error fetching dealer name:", error);
+        console.error("딜러 이름을 가져오는 중 오류 발생:", error);
+        setDealerName("딜러 이름을 가져올 수 없습니다");
       }
     };
 
     fetchDealerName();
-    fetchApplications();
   }, []);
 
+  // 상담 데이터 가져오기
   useEffect(() => {
-    filterApplications(selectedTab);
-  }, [selectedTab, applications]);
+    if (!dealerNo) return;
+    const fetchConsultData = async () => {
+      try {
+        const response = await axios.get(
+          `http://222.112.27.120:8001/dealer_consults/${dealerNo}`
+        );
+        setApplications(response.data);
+      } catch (error) {
+        console.error("상담 데이터를 가져오는 중 오류 발생:", error);
+      }
+    };
 
-  const fetchApplications = async () => {
+    fetchConsultData();
+  }, [dealerNo]);
+
+  const openMemoModal = async (consultNo) => {
     try {
-      const response = await axios.get("http://222.112.27.120:8001/dealer_consult");
-      setApplications(response.data);
-      setFilteredApplications(
-        response.data.filter((app) => app.consult_process === "상담 시작 전")
-      ); // 초기 필터링
+      const consultResponse = await axios.get(
+        `http://222.112.27.120:8001/consult_details/${consultNo}`
+      );
+      setConsultDetails(consultResponse.data);
+
+      const memoResponse = await axios.get(
+        `http://222.112.27.120:8001/memo/${consultNo}`
+      );
+
+      const consultContent = memoResponse.data.consultContent || "";
+      const consultHistNo = memoResponse.data.consult_hist_no || null;
+
+      setMemoContent(consultContent);
+      setSelectedConsult({
+        custom_consult_no: consultNo,
+        consult_hist_no: consultHistNo,
+      });
+
+      setIsMemoModalOpen(true);
     } catch (error) {
-      console.error("Error fetching applications:", error);
+      console.error("모달 데이터를 가져오는 중 오류 발생:", error);
+      setMemoContent("");
+      setSelectedConsult({
+        custom_consult_no: consultNo,
+        consult_hist_no: null,
+      });
+      setIsMemoModalOpen(true);
     }
   };
 
-  const filterApplications = (status) => {
-    setFilteredApplications(
-      applications.filter((app) => app.consult_process === status)
-    );
-  };
+  const saveMemo = async () => {
+    try {
+      let endpoint;
+      let method;
+      let payload;
 
-  const handleTabChange = (status) => {
-    setSelectedTab(status);
-    setSelectedApplication(null);
-  };
-
-  const handleStatusClick = async (application) => {
-    if (application.consult_process === "상담 시작 전") {
-      try {
-        await axios.put(
-          `http://222.112.27.120:8001/dealer_consult/${application.custom_consult_no}`,
-          { consult_process: "진행 중" }
-        );
-        alert("상태가 진행 중으로 변경되었습니다.");
-        fetchApplications();
-        setSelectedTab("진행 중");
-      } catch (error) {
-        console.error("Error updating consult process:", error);
+      if (selectedConsult.consult_hist_no) {
+        // 기존 메모 수정
+        endpoint = `http://222.112.27.120:8001/consult_hist/${selectedConsult.consult_hist_no}`;
+        method = "put";
+        payload = { consult_content: memoContent };
+      } else {
+        // 새로운 메모 등록
+        endpoint = `http://222.112.27.120:8001/consult_hist`;
+        method = "post";
+        payload = {
+          custom_consult_no: selectedConsult.custom_consult_no,
+          consult_content: memoContent,
+        };
       }
-    } else if (application.consult_process === "진행 중") {
-      setSelectedApplication(application);
-      setMemo("");
-      setIsEditing(false);
-    } else if (application.consult_process === "상담 완료") {
-      setSelectedApplication(application);
-      setMemo(application.memo || "");
-      setIsEditing(true);
+
+      const response = await axios[method](endpoint, payload);
+
+      alert(
+        selectedConsult.consult_hist_no
+          ? "메모가 성공적으로 수정되었습니다."
+          : "메모가 성공적으로 등록되었습니다."
+      );
+
+      // 상태 업데이트 (등록 후 consult_hist_no 추가)
+      if (!selectedConsult.consult_hist_no) {
+        setSelectedConsult((prev) => ({
+          ...prev,
+          consult_hist_no: response.data.data.consult_hist_no,
+        }));
+      }
+
+      setIsMemoModalOpen(false);
+    } catch (error) {
+      console.error("메모 저장 중 오류 발생:", error);
+      alert("메모 저장 중 문제가 발생했습니다. 다시 시도해주세요.");
     }
   };
 
-  const handleMemoChange = (e) => {
-    setMemo(e.target.value);
-  };
+  const changeConsultStatus = async (consultNo) => {
+    try {
+      const response = await axios.put(
+        `http://222.112.27.120:8001/dealer_consults/complete/${consultNo}`
+      );
+      console.log("상담 상태 업데이트 성공:", response.data);
 
-  const handleSaveMemo = async () => {
-    if (isEditing) {
-      try {
-        await axios.put(
-          `http://222.112.27.120:8001/dealer_consult/${selectedApplication.custom_consult_no}`,
-          { consult_content: memo }
-        );
-        alert("메모가 수정되었습니다.");
-        fetchApplications();
-        setSelectedApplication(null);
-      } catch (error) {
-        console.error("Error updating memo:", error);
-      }
-    } else {
-      try {
-        await axios.post("http://222.112.27.120:8001/add_consult_memo", {
-          consult_content: memo,
-          consult_hist_status: true,
-          custom_consult_no: selectedApplication.custom_consult_no,
-        });
-        await axios.put(
-          `http://222.112.27.120:8001/dealer_consult/${selectedApplication.custom_consult_no}`,
-          { consult_process: "상담 완료" }
-        );
-        alert("메모가 추가되고 상담 상태가 완료로 변경되었습니다.");
-        fetchApplications();
-        setSelectedApplication(null);
-      } catch (error) {
-        console.error("Error saving memo:", error);
-      }
+      // 프론트엔드 상태 업데이트
+      setApplications((prevApplications) =>
+        prevApplications.map((app) =>
+          app.custom_consult_no === consultNo
+            ? { ...app, consult_process: "상담 완료" }
+            : app
+        )
+      );
+    } catch (error) {
+      console.error("상담 상태를 업데이트 하는 중 오류 발생:", error);
     }
   };
 
-  const handleEditMemo = () => {
-    setIsEditing(true);
-  };
-
-  const handleCloseModal = () => {
-    setSelectedApplication(null);
-    setIsEditing(false);
+  const closeMemoModal = () => {
+    setIsMemoModalOpen(false);
+    setMemoContent("");
   };
 
   return (
@@ -131,100 +155,78 @@ const DealerDashboard = () => {
       <div className="dealer-dashboard-sidebar">
         <button
           className={selectedTab === "상담 시작 전" ? "active-tab" : ""}
-          onClick={() => handleTabChange("상담 시작 전")}
+          onClick={() => setSelectedTab("상담 시작 전")}
         >
           상담 시작 전
         </button>
         <button
-          className={selectedTab === "진행 중" ? "active-tab" : ""}
-          onClick={() => handleTabChange("진행 중")}
-        >
-          진행 중
-        </button>
-        <button
           className={selectedTab === "상담 완료" ? "active-tab" : ""}
-          onClick={() => handleTabChange("상담 완료")}
+          onClick={() => setSelectedTab("상담 완료")}
         >
           상담 완료
         </button>
       </div>
-
       <div className="dealer-dashboard-content">
         <h2>{dealerName} 딜러님의 상담페이지 입니다.</h2>
         <table>
           <thead>
             <tr>
               <th>번호</th>
+              <th>고객 이름</th>
               <th>접수된 상담</th>
               <th>신청날짜</th>
               <th>진행 상태</th>
+              <th>메모</th>
             </tr>
           </thead>
           <tbody>
-            {filteredApplications.map((app, index) => (
-              <tr key={app.custom_consult_no}>
-                <td>{index + 1}</td>
-                <td>
-                  {app.custom_content
-                    ? app.custom_content.length > 15
-                      ? app.custom_content.substring(0, 15) + "..."
-                      : app.custom_content
-                    : "고객 요청 사항이 없습니다"}
-                </td>
-                <td>{new Date(app.created_at).toLocaleDateString()}</td>
-                <td>
-                  <button onClick={() => handleStatusClick(app)}>
-                    {app.consult_process === "상담 시작 전"
-                      ? "상담 시작 전"
-                      : app.consult_process === "진행 중"
-                      ? "진행 중"
-                      : "수정"}
-                  </button>
-                </td>
-              </tr>
-            ))}
+            {applications
+              .filter((app) => app.consult_process === selectedTab)
+              .map((app, index) => (
+                <tr key={app.custom_consult_no}>
+                  <td>{index + 1}</td>
+                  <td>{app.customer_name}</td>
+                  <td>{app.custom_content}</td>
+                  <td>{new Date(app.created_at).toLocaleDateString()}</td>
+                  <td>
+                    {app.consult_process === "상담 시작 전" ? (
+                      <button
+                        onClick={() =>
+                          changeConsultStatus(app.custom_consult_no)
+                        }
+                      >
+                        상담 완료로 변경
+                      </button>
+                    ) : (
+                      <span>상담 완료</span>
+                    )}
+                  </td>
+                  <td>
+                    <button
+                      onClick={() => openMemoModal(app.custom_consult_no)}
+                    >
+                      {app.consult_process === "상담 완료" ||
+                      app.consult_hist_no
+                        ? "메모 수정"
+                        : "메모 등록"}
+                    </button>
+                  </td>
+                </tr>
+              ))}
           </tbody>
         </table>
       </div>
 
-      {selectedApplication && (
-        <div className="dealer-dashboard-modal">
-          <div className="dealer-dashboard-modal-content">
-            <button className="dealer-close-button" onClick={handleCloseModal}>
-              <MdOutlineClose />
-            </button>
-
-            <h3>상담 접수번호 : {selectedApplication.custom_consult_no}</h3>
-            <div className="dealer-dashboard-modal-body">
-              <div className="dealer-dashboard-applicant-info">
-                <p>고객 요청사항: {selectedApplication.custom_content}</p>
-              </div>
-              <div className="dealer-dashboard-memo-section">
-                <textarea
-                  value={memo}
-                  onChange={handleMemoChange}
-                  placeholder="메모를 입력하세요..."
-                />
-                <div className="dealer-button-group">
-                  <button
-                    onClick={handleSaveMemo}
-                    className="dealer-dashboard-complete-button"
-                  >
-                    {isEditing ? "수정 완료" : "완료"}
-                  </button>
-                  {isEditing && (
-                    <button
-                      onClick={handleEditMemo}
-                      className="dealer-dashboard-edit-button"
-                    >
-                      수정
-                    </button>
-                  )}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+      {isMemoModalOpen && (
+        <MemoModal
+          isOpen={isMemoModalOpen}
+          consultDetails={consultDetails}
+          memoContent={memoContent}
+          onChangeMemoContent={setMemoContent}
+          onClose={closeMemoModal}
+          onSave={saveMemo}
+          isEditMode={!!selectedConsult?.consult_hist_no} // 수정 모드 여부
+        />
       )}
     </div>
   );
