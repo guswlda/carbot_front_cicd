@@ -20,9 +20,6 @@ FROM nginx:alpine
 # 빌드된 정적 파일을 Nginx 기본 경로에 복사
 COPY --from=build /usr/src/app/build /usr/share/nginx/html
 
-# nginx.conf 파일을 컨테이너의 Nginx 설정 경로에 복사
-COPY nginx.conf /etc/nginx/nginx.conf
-
 # Nginx 포트 설정
 EXPOSE 80
 
