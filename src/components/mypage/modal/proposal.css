@@ -1,0 +1,98 @@
+.proposal-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.proposal-modal-content {
+  background: white;
+  width: 400px;
+  padding: 20px;
+  border-radius: 8px;
+  position: relative;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.proposal-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.proposal-modal-logo {
+  margin-left: 20px;
+  font-family: "Orbitron", sans-serif;
+  font-weight: bold;
+  text-align: center;
+  width: 100%;
+}
+
+.proposal-modal-close {
+  background-color: transparent;
+  color: black;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-size: 24px;
+}
+
+.proposal-modal-close:hover {
+  background-color: transparent;
+  color: black;
+}
+
+.proposal-modal-body .proposal-section {
+  margin-bottom: 20px;
+}
+
+.proposal-dealer-options {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.proposal-dealer-option {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+}
+
+.proposal-dealer-info {
+  color: gray;
+  font-size: 12px;
+  margin-top: 10px;
+}
+
+textarea {
+  width: 100%;
+  height: 80px;
+  padding: 10px;
+  font-size: 14px;
+  resize: none;
+  margin-top: 10px;
+}
+
+.proposal-submit-button {
+  width: 100%;
+  padding: 10px;
+  background: black;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 10px;
+}
+
+.proposal-submit-button:hover {
+  background: #333;
+}

@@ -1,0 +1,15 @@
+.callbot-icon {
+  position: fixed;
+  bottom: 40px; /* 화면 하단에서 20px 떨어진 위치 */
+  right: 40px; /* 화면 오른쪽에서 20px 떨어진 위치 */
+  border-radius: 20%;
+  padding: 10px;
+  cursor: pointer;
+  z-index: 1000; /* 다른 요소 위에 표시되도록 설정 */
+}
+
+.bot-image {
+  width: 40px;
+  height: 40px;
+  filter: invert(1) brightness(2); /* 색상을 하얀색에 가깝게 변환 */
+}

@@ -1,0 +1,218 @@
+.my-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.button-group {
+  display: flex;
+  gap: 10px;
+}
+
+.button-group button {
+  position: relative;
+  padding: 10px 20px;
+  border: none;
+  background-color: transparent; /* 버튼 배경을 투명하게 설정 */
+  color: black;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color 0.3s;
+  overflow: hidden;
+}
+
+.button-group button::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #000;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+
+.button-group button:hover::after {
+  transform: scaleX(1);
+}
+
+.button-group button.active::after {
+  transform: scaleX(1);
+  background-color: #000; /* 고정된 밑줄 색상 */
+}
+
+.button-group button:hover {
+  color: #000;
+}
+
+.mypage-content-area {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.mypage-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin: 100px;
+}
+
+/* 기존 차량 카드 스타일 */
+.mypage-card {
+  background-color: #fff;
+  width: 30%;
+  overflow: hidden;
+}
+
+.mypage-card img {
+  width: 100%;
+  height: auto;
+}
+
+.mypage-info {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.proposal-button {
+  width: 100%;
+  padding: 10px;
+  background: black;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 10px;
+}
+
+/* 회원정보 수정 */
+.profile-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 50px;
+}
+
+.profile-container p {
+  margin-bottom: 20px;
+  font-size: 18px;
+}
+
+.password-input {
+  width: 300px;
+  padding: 10px;
+  margin-bottom: 20px;
+  font-size: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.confirm-button {
+  width: 300px;
+  padding: 10px;
+  background: black;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 10px;
+}
+
+.confirm-button:hover {
+  background-color: gray;
+}
+
+/* 전체 폼 컨테이너 설정 */
+.my-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 0;
+}
+
+.button-group {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.button-group button {
+  font-size: 16px;
+  padding: 10px 20px;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  color: #333;
+}
+
+.button-group .active {
+  border-bottom: 0.5px solid black;
+  font-weight: bold;
+}
+
+.profile-edit-container,
+.profile-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 400px;
+  padding: 20px;
+}
+
+.editInfo-input-group p {
+  margin: 0;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.editInfo-input-group input[type='text'],
+.editInfo-input-group input[type='email'],
+.editInfo-input-group input[type='password'],
+.editInfo-birth-group select,
+.editInfo-residence-group select {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #ddd;
+  font-size: 12px;
+  box-sizing: border-box;
+}
+
+.editInfo-residence-group p {
+  font-size: 12px;
+  font-weight: bold;
+}
+
+/* select의 옵션 스타일 */
+.editInfo-residence-group select option {
+  font-size: 10px;
+}
+
+/* 오류 메시지 스타일 */
+.error-message {
+  color: red;
+  font-size: 12px;
+}
+
+/* 저장, 취소 버튼 */
+.editInfo-button {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  background-color: black;
+  color: white;
+  border: none;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.editInfo-save-button:hover {
+  background-color: gray;
+}

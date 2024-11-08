@@ -1,0 +1,44 @@
+.notice-management-container {
+  padding: 20px;
+}
+
+.notice-management-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.notice-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.notice-table th,
+.notice-table td {
+  padding: 10px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+.notice-title-button {
+  background: none;
+  border: none;
+  color: #007bff;
+  text-align: left;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.notice-register-button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.notice-register-button:hover {
+  background-color: #0056b3;
+}

@@ -1,0 +1,35 @@
+.consultation-management-container {
+  padding: 20px;
+}
+
+.consultation-management-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.consultation-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.consultation-table th,
+.consultation-table td {
+  padding: 10px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+.consultation-status-button {
+  background: none;
+  border: none;
+  color: #007bff;
+  text-align: left;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.consultation-status-button:hover {
+  text-decoration: underline;
+}

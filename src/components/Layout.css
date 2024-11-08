@@ -1,0 +1,12 @@
+/* 전체 화면을 100vh로 맞춤 */
+.layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* 전체 화면을 차지하도록 설정 */
+}
+
+/* main 영역은 남은 공간을 차지하고, 스크롤이 필요할 때만 생성되도록 설정 */
+main {
+  flex: 1; /* 남은 공간을 차지하도록 설정 */
+  overflow-y: auto; /* 내용이 길어질 때만 세로 스크롤 생성 */
+}

@@ -1,0 +1,45 @@
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.membership-modal-content {
+  background: #ffffff;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 60%;
+  color: #000;
+}
+
+.membership-modal-content h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: #000;
+}
+
+.membership-modal-content p {
+  margin-bottom: 1rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.membership-details-table {
+  width: 100%;
+  border-collapse: collapse;
+  color: #000;
+}
+
+.membership-details-table td {
+  border: 1px solid #ddd;
+  padding: 0.5rem;
+  width: 50%;
+  background-color: #ffffff;
+}

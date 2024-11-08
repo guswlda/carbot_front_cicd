@@ -1,0 +1,88 @@
+.dealer-management {
+  padding: 20px;
+}
+
+.dealer-management-title {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.dealer-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.dealer-table th,
+.dealer-table td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: center;
+}
+
+.dealer-table th {
+  background-color: #f5f5f5;
+}
+
+.dealer-table button {
+  background-color: #e0e0e0;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.dealer-table button:hover {
+  background-color: #ccc;
+}
+
+/* 모달 스타일 */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  width: 300px;
+  max-width: 90%;
+}
+
+.modal-table {
+  width: 100%;
+  margin-top: 10px;
+}
+
+.modal-table td {
+  padding: 8px;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+}
+
+.edit-button {
+  background-color: #000;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.delete-button {
+  background-color: #ff4500;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+}

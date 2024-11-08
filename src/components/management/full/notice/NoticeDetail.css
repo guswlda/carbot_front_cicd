@@ -1,0 +1,57 @@
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.notice-detail-modal {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 500px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.notice-detail-modal h2 {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.notice-detail-modal input,
+.notice-detail-modal select,
+.notice-detail-modal textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.notice-detail-modal button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.notice-detail-modal button:first-of-type {
+  background-color: #007bff;
+  color: white;
+}
+
+.notice-detail-modal button:last-of-type {
+  background-color: #dc3545;
+  color: white;
+  margin-left: 10px;
+}
+
+.notice-detail-modal button:hover {
+  opacity: 0.9;
+}

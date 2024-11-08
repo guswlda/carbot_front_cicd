@@ -1,0 +1,60 @@
+/* 전체 레이아웃 */
+.dashboard-container {
+  display: flex;
+  height: 100vh;
+}
+
+/* 사이드바 스타일 */
+.sidebar {
+  width: 200px;
+  background-color: #f7f7f7;
+  border-right: 1px solid #ddd;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+}
+
+.sidebar button {
+  background: none;
+  border: none;
+  color: #333;
+  font-size: 1rem;
+  padding: 0.5rem 0;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.sidebar button:hover {
+  background-color: #ddd;
+}
+
+/* 콘텐츠 영역 스타일 */
+.dashboard-content {
+  flex: 1;
+  padding: 2rem;
+  background-color: #fff;
+}
+
+.dashboard-content-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.dashboard-content-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.dashboard-content-table th,
+.dashboard-content-table td {
+  border: 1px solid #ddd;
+  padding: 0.75rem;
+  text-align: left;
+}
+
+.dashboard-content-table th {
+  background-color: #f0f0f0;
+  font-weight: bold;
+}

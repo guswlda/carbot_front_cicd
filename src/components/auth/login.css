@@ -1,0 +1,109 @@
+/* login.css */
+
+/* 전체 페이지 레이아웃 */
+.page-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* 로그인 컨테이너 중앙 정렬 */
+.login-container {
+  display: flex;
+  flex: 0.6;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+/* 로그인 박스 */
+.login-box {
+  width: 500px;
+  height: 600px;
+  padding: 40px;
+  text-align: center;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* 내부 요소들을 위아래로 정렬 */
+}
+
+.login-box-text {
+  display: flex;
+  justify-content: space-between; /* 제목과 링크를 양쪽으로 정렬 */
+  align-items: center;
+  width: 100%; /* 부모 영역을 가득 채우도록 설정 */
+}
+
+.login-box h1 {
+  font-size: 40px;
+  padding: 10px;
+}
+
+.corporate-login {
+  display: inline; /* 인라인 요소로 유지 */
+  padding: 20px 0 0 0;
+  margin: 10px;
+  cursor: pointer;
+  text-decoration: underline;
+  color: #000;
+  font-size: 16px;
+}
+
+/* 입력 필드 */
+.login-inputs input {
+  width: 90%;
+  padding: 13px 15px;
+  margin: 15px 0;
+  border: 1px solid #ddd;
+  font-size: 12px;
+}
+
+/* 로그인 버튼 */
+.login-button {
+  width: 70%;
+  padding: 15px;
+  background-color: black;
+  color: white;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 30px;
+}
+
+button:hover {
+  background-color: #333;
+}
+
+/* 도움말 링크 스타일 */
+.help-links {
+  margin-top: 20px;
+  font-size: 14px;
+  color: #666;
+}
+
+.help-links a {
+  color: #333;
+  text-decoration: none;
+}
+
+.help-links a:hover {
+  text-decoration: underline;
+}
+
+.signup-link {
+  color: orange;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.login-error-message {
+  color: red;
+  font-size: 10px;
+  margin-top: -5px;
+}
+
+.login-error-input {
+  border-color: red;
+  box-shadow: 0 0 5px rgba(255, 0, 0, 1);
+}

@@ -1,0 +1,109 @@
+/* 부모 컨테이너 - 화면 가운데 정렬 */
+.pw-container {
+  display: flex;
+  justify-content: center;
+}
+
+/* 박스 디자인 */
+.pw-box {
+  width: 500px;
+  height: 600px;
+  padding: 40px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.pw-box .h1 {
+  font-size: 40px;
+}
+
+/* 입력 필드 그룹 */
+
+.pw-input-box p {
+  text-align: left;
+  margin: 20px 0 5px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #333;
+}
+
+.pw-input-box {
+  margin-top: 30px;
+}
+
+/* 인풋 필드 스타일 */
+.pw-input-box input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 5px; /* 오류 메시지와 인풋 사이 간격 */
+  border: 1px solid #ddd;
+  font-size: 12px;
+  border-radius: 4px;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+/* 오류가 있을 때 입력 필드 스타일 */
+.input-error {
+  border-color: red;
+  box-shadow: 0 0 5px rgba(246, 1, 1, 0.5);
+}
+
+/* 오류 메시지 텍스트 */
+.error-text {
+  color: red;
+  font-size: 10px;
+  text-align: left;
+  margin-top: -5px;
+}
+
+/* 인증번호 입력 필드와 버튼 배치 */
+.verification {
+  display: flex;
+  align-items: baseline;
+  gap: 20px;
+  margin-bottom: 10px;
+}
+
+/* 인증번호 입력 필드 */
+.verification input {
+  flex: 1; /* 버튼이 들어갈 공간만 남기고 입력 필드를 줄임 */
+  padding: 10px;
+  border: 1px solid #ddd;
+  font-size: 12px;
+  border-radius: 4px;
+}
+
+/* 인증 버튼 */
+.verification button {
+  padding: 10px 20px;
+  background-color: black;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.verification button:hover {
+  background-color: #333;
+}
+
+/* 버튼 디자인 */
+.pw-button button {
+  margin-top: 40px;
+  width: 90%;
+  padding: 12px;
+  background-color: black;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.pw-button button:hover {
+  background-color: #333;
+}

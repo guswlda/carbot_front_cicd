@@ -1,0 +1,136 @@
+/* Wrapper for the entire form container */
+.join-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.join-box {
+  width: 500px;
+  padding: 20px;
+}
+
+.join-box h1 {
+  font-size: 40px;
+  text-align: center;
+  margin: 20px 0 40px 0;
+}
+
+.join-form input[type='text'],
+.join-form input[type='email'],
+.join-form input[type='password'],
+.join-form select {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0;
+  border: 1px solid #ddd;
+  box-sizing: border-box;
+  font-size: 12px;
+}
+
+.input-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.input-group input {
+  flex: 1;
+}
+
+.input-group button {
+  margin-left: 10px;
+  padding: 10px;
+  font-size: 12px;
+  color: white;
+  background-color: #333;
+  border: none;
+  cursor: pointer;
+}
+
+.input-group button:hover {
+  background-color: #555;
+}
+
+.join-select-box {
+  display: flex;
+  justify-content: left;
+  gap: 20px;
+  padding: 5px;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+/* Checkbox group */
+.checkbox-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding: 5px;
+  font-size: 14px;
+}
+
+.checkbox-group label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* Terms group */
+.terms-box label {
+  display: flex;
+  align-items: center;
+  font-size: 10px;
+}
+
+.terms-box input {
+  margin: 5px;
+  border: 1px solid #ddd;
+  font-size: 10px;
+}
+
+/* Error styling */
+.error {
+  border: 1px solid #ff5733;
+}
+
+.join-error-message {
+  color: red;
+  font-size: 10px;
+  margin-top: -2px;
+  margin-bottom: 10px;
+}
+
+/* Submit button styling */
+.submit-button {
+  margin-top: 30px;
+  width: 100%;
+  padding: 12px;
+  font-size: 14px;
+  background-color: black;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.submit-button:hover {
+  background-color: #333;
+}
+
+/* Footer links styling */
+.footer-links {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.footer-links a {
+  color: #333;
+  text-decoration: none;
+  font-size: 12px;
+}
+
+.footer-links a:hover {
+  text-decoration: underline;
+}

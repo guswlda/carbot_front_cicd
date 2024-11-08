@@ -1,0 +1,157 @@
+/* Main Content 스타일 */
+.carselect-page {
+  background-color: #1c1c1c; /* 전체 페이지 배경색 설정 */
+  height: 81.3vh;
+}
+
+.carselect-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px;
+}
+
+.carselect-container h2 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  color: #fff;
+}
+
+.carselect-search-container {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
+.carselect-dropdown {
+  padding: 10px;
+  font-size: 1rem;
+}
+
+.carselect-search-button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  background-color: #000;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 0;
+}
+
+.carselect-search-button:hover {
+  background-color: #666;
+}
+
+.select-car-list {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.select-card {
+  background-color: #1c1c1c;
+  width: 30%;
+  text-align: center;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.select-card img {
+  width: 100%;
+  height: auto;
+  margin-bottom: 10px;
+}
+
+.select-info {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.select-model-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 10px;
+  color: #fff;
+}
+
+.carselect-bookmark-icon {
+  cursor: pointer;
+  font-size: 1.5rem;
+  color: #ff4500; /* 기본 아이콘 색상 */
+}
+
+.carselect-main-links {
+  text-decoration: none;
+  align-self: flex-end;
+}
+
+.carselect-details-button,
+.carselect-details-button button {
+  position: relative;
+  background-color: #000;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin-top: 10px;
+  cursor: pointer;
+  border-radius: 0;
+  overflow: hidden;
+  transition: color 0.3s ease; /* 텍스트 색상 전환 */
+  z-index: 1; /* 텍스트가 가상 요소 위에 표시되도록 설정 */
+}
+
+/* ::before 가상 요소로 슬라이드 배경 생성 */
+.carselect-details-button::before,
+.carselect-details-button button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%; /* 시작 위치를 왼쪽 바깥으로 설정 */
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  transition: left 0.3s ease; /* 슬라이드 애니메이션 */
+  z-index: -1; /* 배경이 텍스트 뒤에 오도록 설정 */
+}
+
+/* hover 상태에서 슬라이드 효과 */
+.carselect-details-button:hover::before,
+.carselect-details-button button:hover::before {
+  left: 0; /* 슬라이드 배경을 왼쪽에서 오른쪽으로 이동 */
+}
+
+.carselect-details-button:hover,
+.carselect-details-button button:hover {
+  color: #000; /* 텍스트 색상 변경 */
+}
+
+/* 텍스트를 가상 요소 위에 올리기 위한 설정 */
+.carselect-details-button,
+.carselect-details-button button {
+  position: relative;
+  z-index: 1; /* 텍스트가 가상 요소 위에 표시되도록 설정 */
+}
+
+.carselect-details-button {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 100px;
+}
+
+.carselect-details-button button {
+  background-color: #000;
+  color: white;
+  padding: 10px 30px;
+  border: none;
+  cursor: pointer;
+  border-radius: 0;
+}
+
+.carselect-details-button button:hover {
+  background-color: #555;
+}

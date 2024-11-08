@@ -1,0 +1,50 @@
+/* header.css */
+
+.header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  background-color: #1c1c1c;
+  color: white;
+  padding: 10px 20px;
+}
+
+.header-left,
+.header-right {
+  flex: 1;
+  display: flex;
+}
+
+.header-left {
+  justify-content: flex-start;
+}
+
+.header-logo {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  height: 50px;
+}
+
+.header-right {
+  justify-content: flex-end;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  color: white;
+  width: 100px;
+  height: auto;
+}
+
+.header-link {
+  color: white;
+  text-decoration: none;
+  margin: 0 10px;
+}
+
+.header-link:hover {
+  text-decoration: underline;
+}

@@ -1,0 +1,73 @@
+/* 전체 페이지 스타일 */
+.carinfo-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.carinfo-container {
+  display: flex;
+  background-color: #1c1c1c;
+  flex-direction: column;
+  padding: 40px;
+  height: 81.3vh;
+}
+
+/* 제목 스타일 */
+.carinfo-title h2 {
+  margin-left: 20px;
+  font-size: 40px;
+  margin-bottom: 20px;
+  color: #fff;
+}
+
+/* 콘텐츠 섹션 스타일 */
+.carinfo-content {
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+  max-width: 1200px;
+  gap: 50px;
+  margin-top: 50px;
+}
+
+.carinfo-image {
+  width: 1000px;
+  height: auto;
+  border-radius: 8px;
+}
+
+.carinfo-specifications {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  color: #fff;
+}
+
+.carinfo-p {
+  font-size: 30px;
+  font-weight: 500;
+}
+
+.carinfo-ul {
+  margin-top: 50px;
+  font-size: 22px;
+}
+
+.carinfo-ul li {
+  white-space: nowrap;
+}
+
+.carinfo-specifications h3 {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+}
+
+.carinfo-specifications ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.carinfo-specifications li {
+  margin-bottom: 10px;
+}
