@@ -14,7 +14,7 @@ RUN npm install
 COPY . .
 
 # 애플리케이션 빌드 (프론트엔드 빌드가 필요한 경우, 필요한 스크립트 추가)
-# 예시: RUN npm run build
+RUN npm run build
 
 # 2단계: Nginx 설정 및 Node.js 애플리케이션 실행
 FROM nginx:alpine
