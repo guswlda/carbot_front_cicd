@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./Membership.css";
 import axios from "axios";
+import { MdOutlineClose } from "react-icons/md";
 
 const Membership = ({ customer, onClose }) => {
   const [detailedInfo, setDetailedInfo] = useState(null); // 추가 고객 정보 상태
@@ -70,7 +71,9 @@ const Membership = ({ customer, onClose }) => {
             )}
           </tbody>
         </table>
-        <button onClick={onClose}>닫기</button>
+        <button onClick={onClose} className="membership-close-button">
+          <MdOutlineClose />
+        </button>
       </div>
     </div>
   );

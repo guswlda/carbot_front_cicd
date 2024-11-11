@@ -33,3 +33,21 @@
 .consultation-status-button:hover {
   text-decoration: underline;
 }
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+.pagination-button {
+  margin: 0 5px;
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  background-color: white;
+  cursor: pointer;
+}
+.pagination-button.active {
+  background-color: #b0b0b0;
+  color: white;
+  border-color: #b0b0b0;
+}

@@ -1,7 +1,6 @@
 /* 전체 레이아웃 */
 .dashboard-container {
   display: flex;
-  height: 100vh;
 }
 
 /* 사이드바 스타일 */

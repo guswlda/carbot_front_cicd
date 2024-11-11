@@ -10,6 +10,8 @@ const AdminDashboard = () => {
   const [customers, setCustomers] = useState([]); // 고객 데이터 상태
   const [activeMenu, setActiveMenu] = useState("회원 관리");
   const [selectedCustomer, setSelectedCustomer] = useState(null); // 선택된 고객 상태
+  const [currentPage, setCurrentPage] = useState(1); // 현재 페이지 상태
+  const itemsPerPage = 5; // 한 페이지당 표시할 항목 수
 
   useEffect(() => {
     // 백엔드에서 고객 데이터 가져오기
@@ -27,12 +29,22 @@ const AdminDashboard = () => {
     fetchCustomers();
   }, []);
 
+  // 페이지네이션 계산
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = customers.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(customers.length / itemsPerPage);
+
   const handleCustomerClick = (customer) => {
     setSelectedCustomer(customer); // 선택된 고객 상태 설정하여 모달 열기
   };
 
   const handleCloseMembershipModal = () => {
     setSelectedCustomer(null); // 모달 닫기 위해 선택된 고객 상태 초기화
+  };
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page); // 페이지 변경
   };
 
   return (
@@ -62,9 +74,9 @@ const AdminDashboard = () => {
                 </tr>
               </thead>
               <tbody>
-                {customers.map((customer, index) => (
+                {currentItems.map((customer, index) => (
                   <tr key={customer.customer_id}>
-                    <td>{index + 1}</td>
+                    <td>{indexOfFirstItem + index + 1}</td>
                     <td>{customer.customer_id}</td>
                     <td>{customer.customer_name}</td>
                     <td>
@@ -80,6 +92,23 @@ const AdminDashboard = () => {
                 ))}
               </tbody>
             </table>
+
+            {/* 페이지네이션 */}
+            <div className="pagination">
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                (page) => (
+                  <button
+                    key={page}
+                    className={`pagination-button ${
+                      page === currentPage ? "active" : ""
+                    }`}
+                    onClick={() => handlePageChange(page)}
+                  >
+                    {page}
+                  </button>
+                )
+              )}
+            </div>
           </>
         )}
 

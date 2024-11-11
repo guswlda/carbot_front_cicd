@@ -8,6 +8,12 @@
   margin-bottom: 20px;
 }
 
+.notice-management-header {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 16px;
+}
+
 .notice-table {
   width: 100%;
   border-collapse: collapse;
@@ -31,10 +37,10 @@
 }
 
 .notice-register-button {
-  padding: 10px 20px;
   background-color: #007bff;
-  color: white;
+  color: #fff;
   border: none;
+  padding: 8px 16px;
   border-radius: 4px;
   cursor: pointer;
 }

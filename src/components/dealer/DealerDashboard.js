@@ -10,8 +10,13 @@ const DealerDashboard = () => {
   const [applications, setApplications] = useState([]);
   const [isMemoModalOpen, setIsMemoModalOpen] = useState(false);
   const [memoContent, setMemoContent] = useState("");
-  const [selectedConsult, setSelectedConsult] = useState(null); // 선택된 상담 데이터
-  const [consultDetails, setConsultDetails] = useState(null); // 신청자 정보 및 고객 요청사항
+  const [selectedConsult, setSelectedConsult] = useState(null);
+  const [consultDetails, setConsultDetails] = useState(null);
+
+  // 확인 모달 상태 추가
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
+  const [selectedConsultForStatusChange, setSelectedConsultForStatusChange] =
+    useState(null);
 
   // 딜러 이름 가져오기
   useEffect(() => {
@@ -110,7 +115,6 @@ const DealerDashboard = () => {
           : "메모가 성공적으로 등록되었습니다."
       );
 
-      // 상태 업데이트 (등록 후 consult_hist_no 추가)
       if (!selectedConsult.consult_hist_no) {
         setSelectedConsult((prev) => ({
           ...prev,
@@ -125,14 +129,19 @@ const DealerDashboard = () => {
     }
   };
 
-  const changeConsultStatus = async (consultNo) => {
+  // 상담 상태 변경
+  const confirmChangeConsultStatus = (consultNo, customerName) => {
+    setSelectedConsultForStatusChange({ consultNo, customerName });
+    setIsConfirmModalOpen(true);
+  };
+
+  const changeConsultStatus = async () => {
     try {
+      const { consultNo } = selectedConsultForStatusChange;
       const response = await axios.put(
         `http://222.112.27.120:8001/dealer_consults/complete/${consultNo}`
       );
-      console.log("상담 상태 업데이트 성공:", response.data);
 
-      // 프론트엔드 상태 업데이트
       setApplications((prevApplications) =>
         prevApplications.map((app) =>
           app.custom_consult_no === consultNo
@@ -140,6 +149,8 @@ const DealerDashboard = () => {
             : app
         )
       );
+
+      setIsConfirmModalOpen(false);
     } catch (error) {
       console.error("상담 상태를 업데이트 하는 중 오류 발생:", error);
     }
@@ -192,7 +203,10 @@ const DealerDashboard = () => {
                     {app.consult_process === "상담 시작 전" ? (
                       <button
                         onClick={() =>
-                          changeConsultStatus(app.custom_consult_no)
+                          confirmChangeConsultStatus(
+                            app.custom_consult_no,
+                            app.customer_name
+                          )
                         }
                       >
                         상담 완료로 변경
@@ -225,8 +239,37 @@ const DealerDashboard = () => {
           onChangeMemoContent={setMemoContent}
           onClose={closeMemoModal}
           onSave={saveMemo}
-          isEditMode={!!selectedConsult?.consult_hist_no} // 수정 모드 여부
+          isEditMode={!!selectedConsult?.consult_hist_no}
         />
+      )}
+
+      {isConfirmModalOpen && (
+        <div
+          className="dealer-dashboard-modal-overlay"
+          onClick={() => setIsConfirmModalOpen(false)}
+        >
+          <div
+            className="dealer-dashboard-modal-content"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h3>
+              '{selectedConsultForStatusChange?.customerName}'님의 상담을
+              완료하시겠습니까?
+            </h3>
+            <button
+              onClick={changeConsultStatus}
+              className="dealer-dashboard-complete"
+            >
+              확인
+            </button>
+            <button
+              onClick={() => setIsConfirmModalOpen(false)}
+              className="dealer-dashboard-incomplete"
+            >
+              취소
+            </button>
+          </div>
+        </div>
       )}
     </div>
   );

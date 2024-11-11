@@ -41,12 +41,12 @@
   cursor: pointer;
 }
 
-.notice-form-modal button[type='submit'] {
+.notice-form-modal button[type="submit"] {
   background-color: #007bff;
   color: white;
 }
 
-.notice-form-modal button[type='button'] {
+.notice-form-modal button[type="button"] {
   background-color: #6c757d;
   color: white;
   margin-left: 10px;

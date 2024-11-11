@@ -10,6 +10,8 @@ const NoticeManagement = () => {
   const [selectedNotice, setSelectedNotice] = useState(null);
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
 
   // 공지사항 조회
   const fetchNotices = async () => {
@@ -99,54 +101,77 @@ const NoticeManagement = () => {
 
   const handleNoticeClick = (notice) => {
     setSelectedNotice(notice); // 상세 보기/수정 모드로 설정
-    console.log("Clicked notice : ", notice);
     setIsFormOpen(false);
+  };
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = notices.slice(indexOfFirstItem, indexOfLastItem);
+
+  const totalPages = Math.ceil(notices.length / itemsPerPage);
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
   };
 
   return (
     <div className="notice-management-container">
       <h2 className="notice-management-title">공지사항 관리</h2>
+      <div className="notice-management-header">
+        <button onClick={handleFormOpen} className="notice-register-button">
+          등록
+        </button>
+      </div>
       {error && <p className="error-message">{error}</p>}{" "}
-      {/* 에러 메시지 표시 */}
       {isLoading ? (
         <p>공지사항을 처리 중입니다...</p>
       ) : (
-        <table className="notice-table">
-          <thead>
-            <tr>
-              <th>번호</th>
-              <th>제목</th>
-              <th>작성자</th>
-              <th>작성 날짜</th>
-            </tr>
-          </thead>
-          <tbody>
-            {notices.map((notice, index) => (
-              <tr key={notice.notice_no}>
-                <td>{index + 1}</td>
-                <td>
-                  <button
-                    className="notice-title-button"
-                    onClick={() => handleNoticeClick(notice)}
-                  >
-                    {notice.notice_title}
-                  </button>
-                </td>
-                <td>{notice.admin_name}</td>
-                <td>{new Date(notice.created_at).toLocaleDateString()}</td>
+        <>
+          <table className="notice-table">
+            <thead>
+              <tr>
+                <th>번호</th>
+                <th>제목</th>
+                <th>작성자</th>
+                <th>작성 날짜</th>
               </tr>
+            </thead>
+            <tbody>
+              {currentItems.map((notice, index) => (
+                <tr key={notice.notice_no}>
+                  <td>{indexOfFirstItem + index + 1}</td>
+                  <td>
+                    <button
+                      className="notice-title-button"
+                      onClick={() => handleNoticeClick(notice)}
+                    >
+                      {notice.notice_title}
+                    </button>
+                  </td>
+                  <td>{notice.admin_name}</td>
+                  <td>{new Date(notice.created_at).toLocaleDateString()}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <div className="pagination">
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+              <button
+                key={page}
+                className={`pagination-button ${
+                  page === currentPage ? "active" : ""
+                }`}
+                onClick={() => handlePageChange(page)}
+              >
+                {page}
+              </button>
             ))}
-          </tbody>
-        </table>
+          </div>
+        </>
       )}
-      <button onClick={handleFormOpen} className="notice-register-button">
-        등록
-      </button>
-      {/* 공지사항 등록 모달 */}
       {isFormOpen && (
         <NoticeForm onClose={handleFormClose} onSubmit={handleFormSubmit} />
       )}
-      {/* 공지사항 상세 보기/수정 모달 */}
       {selectedNotice && (
         <NoticeDetail
           notice={selectedNotice}
