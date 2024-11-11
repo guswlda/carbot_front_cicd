@@ -9,8 +9,7 @@ const CallbotModal = ({ onClose }) => {
         className="callbot-modal-content"
         onClick={(e) => e.stopPropagation()}
       >
-        <p>안녕하세요 카봇의 콜봇입니다!</p>
-        <p>AI가 카봇에 대해 알려드릴게요</p>
+        <p>안녕하세요 카봇의 AI 콜봇입니다!</p>
         <p>국제 전화 입니다.</p>
         <p> 한국 전화로 변경 예정</p>
         <p>+12058405763</p>
