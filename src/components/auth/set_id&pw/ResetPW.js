@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom"; // 페이지 이동을 위한 useNavigate 훅
+import { useLocation } from "react-router-dom";
 import axios from "axios";
 import "./ResetPW.css";
 
 const ResetPW = () => {
-  const { customer_id } = useParams();
+  const location = useLocation();
+  const email = location.state?.email;
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isError, setIsError] = useState(false);
@@ -15,11 +17,12 @@ const ResetPW = () => {
 
     if (password === confirmPassword) {
       try {
+        console.log("email", email);
         // 이메일을 백엔드로 전송
         const response = await axios.post(
           "http://222.112.27.120:8001/update_pass",
           {
-            customer_id: customer_id,
+            customer_email: email,
             new_password: password, // 새 비밀번호
           }
         );

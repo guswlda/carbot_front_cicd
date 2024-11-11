@@ -7,15 +7,18 @@ const NoticeForm = ({ onClose, onSubmit }) => {
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("공지"); // 기본값 설정
   const [content, setContent] = useState("");
-  const [error, setError] = useState(""); // 에러 메시지 상태 추가
-  const [isSubmitting, setIsSubmitting] = useState(false); // 로딩 상태 추가
+  const [error, setError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const admin_id = localStorage.getItem("userId");
-    if (!admin_id) {
-      setError("관리자 ID가 유효하지 않습니다. 다시 로그인해 주세요.");
+    const admin_id = sessionStorage.getItem("userId");
+    const userType = sessionStorage.getItem("userType")?.trim();
+
+    if (!admin_id || !userType || userType !== "admin") {
+      setError("관리자 권한이 없습니다. 다시 로그인해 주세요.");
+      console.error("Error: userId or userType is missing or invalid.");
       return;
     }
 
@@ -29,17 +32,27 @@ const NoticeForm = ({ onClose, onSubmit }) => {
     setError("");
 
     try {
-      await axios.post(
-        `http://222.112.27.120:8001/add_notice/${admin_id}`,
-        newNotice
+      const response = await axios.post(
+        `http://222.112.27.120:8001/add_notice`,
+        {
+          admin_id,
+          ...newNotice,
+        }
       );
-      onSubmit(newNotice); // 부모 컴포넌트에 새 공지사항 전달
-      setTitle("");
-      setCategory("공지");
-      setContent("");
-      onClose();
+      if (response.status === 201 || response.status === 200) {
+        onSubmit(); // 성공 시 부모 컴포넌트에서 목록 갱신
+        setTitle(""); // 입력 필드 초기화
+        setCategory("공지");
+        setContent("");
+        onClose(); // 모달 닫기
+      } else {
+        throw new Error("등록 실패");
+      }
     } catch (error) {
-      setError("공지사항 등록 중 문제가 발생했습니다. 다시 시도해주세요.");
+      setError(
+        error.response?.data?.message ||
+          "공지사항 등록 중 문제가 발생했습니다. 다시 시도해주세요."
+      );
       console.error("Error adding notice:", error);
     } finally {
       setIsSubmitting(false);
@@ -78,8 +91,7 @@ const NoticeForm = ({ onClose, onSubmit }) => {
           />
           <div className="form-buttons">
             <button type="submit" disabled={isSubmitting}>
-              {isSubmitting ? "등록 중..." : "등록"}{" "}
-              {/* 로딩 상태에 따라 버튼 텍스트 변경 */}
+              {isSubmitting ? "등록 중..." : "등록"}
             </button>
             <button type="button" onClick={onClose} disabled={isSubmitting}>
               취소
@@ -91,7 +103,6 @@ const NoticeForm = ({ onClose, onSubmit }) => {
   );
 };
 
-// PropTypes를 사용하여 props 검증
 NoticeForm.propTypes = {
   onClose: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,

@@ -68,7 +68,7 @@ const FindPassword = () => {
         const response = await axios.post(
           "http://222.112.27.120:8001/verify_email",
           {
-            customer_email: email,
+            email: email,
             code: verificationCode,
           }
         );
@@ -89,7 +89,7 @@ const FindPassword = () => {
   const handleFinalSubmit = (e) => {
     e.preventDefault();
     if (isVerified) {
-      navigate("/resetPW"); // 인증 완료 후 페이지 이동
+      navigate("/resetPW", { state: { email } }); // 인증 완료 후 페이지 이동
     } else {
       alert("먼저 인증을 완료해 주세요.");
     }

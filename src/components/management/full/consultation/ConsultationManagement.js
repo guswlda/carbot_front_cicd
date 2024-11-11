@@ -29,9 +29,9 @@ const ConsultationManagement = () => {
     }
   };
 
-  const handleCloseModal = () => {
-    setSelectedConsultation(null);
-  };
+  // const handleCloseModal = () => {
+  //   setSelectedConsultation(null);
+  // };
 
   return (
     <div className="consultation-management-container">

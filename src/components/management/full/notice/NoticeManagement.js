@@ -8,17 +8,18 @@ const NoticeManagement = () => {
   const [notices, setNotices] = useState([]);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [selectedNotice, setSelectedNotice] = useState(null);
-  const [error, setError] = useState(""); // 에러 상태 추가
-  const [isLoading, setIsLoading] = useState(false); // 로딩 상태 추가
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   // 공지사항 조회
   const fetchNotices = async () => {
     setIsLoading(true);
+    setError(""); // 에러 상태 초기화
     try {
       const response = await axios.get(
         "http://222.112.27.120:8001/admin_notices"
       );
-      setNotices(response.data.notices); // 응답 데이터로 상태 업데이트
+      setNotices(response.data.notices);
     } catch (error) {
       console.error("Error fetching notices:", error);
       setError("공지사항을 불러오는 중 문제가 발생했습니다.");
@@ -33,52 +34,59 @@ const NoticeManagement = () => {
   }, []);
 
   // 공지사항 등록
-  const handleFormSubmit = async (newNotice) => {
-    try {
-      await axios.post("http://222.112.27.120:8001/add_notice", {
-        admin_id: localStorage.getItem("userId"), // admin_id를 localStorage에서 가져옴
-        ...newNotice,
-      });
-      fetchNotices(); // 공지사항 등록 후 목록 갱신
-      setIsFormOpen(false); // 등록 모달 닫기
-    } catch (error) {
-      console.error("Error adding notice:", error);
-      setError("공지사항 등록 중 문제가 발생했습니다.");
-    }
+  const handleFormSubmit = () => {
+    fetchNotices(); // 공지사항 등록 후 목록 갱신
+    setIsFormOpen(false); // 등록 모달 닫기
   };
 
   // 공지사항 삭제
   const handleDelete = async (notice_no) => {
+    const adminId = sessionStorage.getItem("userId");
+    const userType = sessionStorage.getItem("userType")?.trim();
+
+    if (!adminId || userType !== "admin") {
+      setError("관리자 권한이 없습니다.");
+      return;
+    }
+
+    setIsLoading(true);
     try {
       await axios.patch(
-        `http://222.112.27.120:8001/del_notice/${localStorage.getItem(
-          "userId"
-        )}/${notice_no}`
+        `http://222.112.27.120:8001/del_notice/${adminId}/${notice_no}`
       );
-      fetchNotices(); // 공지사항 삭제 후 목록 갱신
+      fetchNotices();
       setSelectedNotice(null); // 상세 보기 닫기
     } catch (error) {
       console.error("Error deleting notice:", error);
       setError("공지사항 삭제 중 문제가 발생했습니다.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
   // 공지사항 수정
   const handleUpdate = async (updatedNotice) => {
+    const adminId = sessionStorage.getItem("userId");
+    const userType = sessionStorage.getItem("userType")?.trim();
+
+    if (!adminId || userType !== "admin") {
+      setError("관리자 권한이 없습니다.");
+      return;
+    }
+
+    setIsLoading(true);
     try {
       await axios.patch(
-        `http://222.112.27.120:8001/re_notice/${localStorage.getItem(
-          "userId"
-        )}/${updatedNotice.notice_no}`,
-        {
-          ...updatedNotice,
-        }
+        `http://222.112.27.120:8001/re_notice/${adminId}/${updatedNotice.notice_no}`,
+        updatedNotice
       );
-      fetchNotices(); // 공지사항 수정 후 목록 갱신
+      fetchNotices();
       setSelectedNotice(null); // 상세 보기 닫기
     } catch (error) {
       console.error("Error updating notice:", error);
       setError("공지사항 수정 중 문제가 발생했습니다.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -91,6 +99,8 @@ const NoticeManagement = () => {
 
   const handleNoticeClick = (notice) => {
     setSelectedNotice(notice); // 상세 보기/수정 모드로 설정
+    console.log("Clicked notice : ", notice);
+    setIsFormOpen(false);
   };
 
   return (
@@ -99,7 +109,7 @@ const NoticeManagement = () => {
       {error && <p className="error-message">{error}</p>}{" "}
       {/* 에러 메시지 표시 */}
       {isLoading ? (
-        <p>공지사항을 불러오는 중입니다...</p>
+        <p>공지사항을 처리 중입니다...</p>
       ) : (
         <table className="notice-table">
           <thead>
