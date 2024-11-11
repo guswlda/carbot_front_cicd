@@ -26,5 +26,5 @@ COPY --from=build /usr/src/app/build /usr/share/nginx/html
 # Nginx 포트 설정
 EXPOSE 80
 
-# Nginx 시작
+# 캐시를 최신으로 유지하고 Nginx를 시작합니다.
 CMD ["nginx", "-g", "daemon off;"]
