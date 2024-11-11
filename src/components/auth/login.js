@@ -62,14 +62,17 @@ const Login = () => {
           if (token && token.split(".").length === 3) {
             // JWT 형식 확인
             sessionStorage.setItem("token", token); // JWT를 sessionStorage에 저장
-            setIsLoggedIn(true);
             sessionStorage.setItem("userId", userId); // userId 저장
             sessionStorage.setItem("userType", userType); // userType 저장
+
+            // 상태 갱신 이벤트 디스패치
+            window.dispatchEvent(new Event("storage"));
+
             alert("로그인에 성공했습니다.");
-            if (userType === "dealer") {
+            if (userType === "customer") {
+              navigate("/mypage"); // 마이페이지로 이동
+            } else if (userType === "dealer") {
               navigate("/DealerDashboard");
-            } else if (userType == "customer") {
-              navigate("/Mypage");
             }
           } else {
             console.error("Invalid token format");

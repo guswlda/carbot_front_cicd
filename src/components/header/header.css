@@ -48,3 +48,16 @@
 .header-link:hover {
   text-decoration: underline;
 }
+
+.logout-button {
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.logout-button:hover {
+  text-decoration: underline;
+  background: none;
+}
