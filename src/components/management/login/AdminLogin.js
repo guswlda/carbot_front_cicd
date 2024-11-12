@@ -43,7 +43,7 @@ const AdminLogin = () => {
     };
 
     axios
-      .post("http://localhost:8001/login", loginData, {
+      .post("http://222.112.27.120:8001/login", loginData, {
         withCredentials: true, // 쿠키 전송을 위해 설정
       })
       .then((response) => {
