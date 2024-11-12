@@ -178,11 +178,11 @@ const Main = () => {
       </section>
 
       {/* car-select section */}
-      // <div className="main-select-button">
-      //   <Link to="/CarSelect" className="main-links">
-      //     <button>차량 조회</button>
-      //   </Link>
-      // </div>
+      {/* <div className="main-select-button">
+        <Link to="/CarSelect" className="main-links">
+          <button>차량 조회</button>
+        </Link>
+      </div> */}
     </div>
   );
 };
