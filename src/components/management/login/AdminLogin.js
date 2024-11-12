@@ -1,14 +1,37 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { jwtDecode } from "jwt-decode"; // 올바르게 임포트
 import "./AdminLogin.css";
 
 const AdminLogin = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
 
+  // 페이지 새로 고침 시 토큰과 쿠키가 있으면 로그인 상태 유지
+  useEffect(() => {
+    const token = sessionStorage.getItem("token");
+    const isLoggedInCookie = document.cookie
+      .split("; ")
+      .find((row) => row.startsWith("isLoggedIn="))
+      ?.split("=")[1];
+
+    if (token && isLoggedInCookie) {
+      try {
+        const decoded = jwtDecode(token); // 토큰 디코딩
+        setIsLoggedIn(true);
+        sessionStorage.setItem("userId", decoded.userId); // userId 저장
+        sessionStorage.setItem("userType", decoded.userType); // userType 저장
+      } catch (error) {
+        console.error("Failed to decode token:", error);
+      }
+    }
+  }, []);
+
+  // 관리자 로그인 처리 함수
   const handleAdminLogin = (e) => {
     e.preventDefault();
 
@@ -20,7 +43,7 @@ const AdminLogin = () => {
     };
 
     axios
-      .post("http://222.112.27.120:8001/login", loginData, {
+      .post("http://localhost:8001/login", loginData, {
         withCredentials: true, // 쿠키 전송을 위해 설정
       })
       .then((response) => {
@@ -32,6 +55,8 @@ const AdminLogin = () => {
           sessionStorage.setItem("userId", userId); // userId 저장
           sessionStorage.setItem("userType", userType); // userType 저장
 
+          window.dispatchEvent(new Event("storage"));
+          
           alert("관리자 로그인에 성공했습니다.");
           navigate("/AdminDashboard"); // 성공 시 관리자 대시보드로 이동
         } else {
