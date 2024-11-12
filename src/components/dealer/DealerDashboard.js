@@ -9,12 +9,12 @@ const DealerDashboard = () => {
   const [dealerNo, setDealerNo] = useState(null);
   const [selectedTab, setSelectedTab] = useState("상담 시작 전");
   const [applications, setApplications] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1); // 현재 페이지
+  const itemsPerPage = 5; // 페이지당 표시 항목 수
   const [isMemoModalOpen, setIsMemoModalOpen] = useState(false);
   const [memoContent, setMemoContent] = useState("");
   const [selectedConsult, setSelectedConsult] = useState(null);
   const [consultDetails, setConsultDetails] = useState(null);
-
-  // 확인 모달 상태 추가
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
   const [selectedConsultForStatusChange, setSelectedConsultForStatusChange] =
     useState(null);
@@ -55,6 +55,29 @@ const DealerDashboard = () => {
     fetchConsultData();
   }, [dealerNo]);
 
+  // 탭 변경 시 페이지 초기화
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [selectedTab]);
+
+  // 페이지네이션 계산
+  const filteredApplications = applications.filter(
+    (app) => app.consult_process === selectedTab
+  );
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = filteredApplications.slice(
+    indexOfFirstItem,
+    indexOfLastItem
+  );
+  const totalPages = Math.ceil(filteredApplications.length / itemsPerPage);
+
+  const handlePageChange = (page) => {
+    if (page > 0 && page <= totalPages) {
+      setCurrentPage(page); // 페이지 변경
+    }
+  };
+
   const openMemoModal = async (consultNo) => {
     try {
       const consultResponse = await axios.get(
@@ -84,76 +107,6 @@ const DealerDashboard = () => {
         consult_hist_no: null,
       });
       setIsMemoModalOpen(true);
-    }
-  };
-
-  const saveMemo = async () => {
-    try {
-      let endpoint;
-      let method;
-      let payload;
-
-      if (selectedConsult.consult_hist_no) {
-        // 기존 메모 수정
-        endpoint = `http://222.112.27.120:8001/consult_hist/${selectedConsult.consult_hist_no}`;
-        method = "put";
-        payload = { consult_content: memoContent };
-      } else {
-        // 새로운 메모 등록
-        endpoint = `http://222.112.27.120:8001/consult_hist`;
-        method = "post";
-        payload = {
-          custom_consult_no: selectedConsult.custom_consult_no,
-          consult_content: memoContent,
-        };
-      }
-
-      const response = await axios[method](endpoint, payload);
-
-      alert(
-        selectedConsult.consult_hist_no
-          ? "메모가 성공적으로 수정되었습니다."
-          : "메모가 성공적으로 등록되었습니다."
-      );
-
-      if (!selectedConsult.consult_hist_no) {
-        setSelectedConsult((prev) => ({
-          ...prev,
-          consult_hist_no: response.data.data.consult_hist_no,
-        }));
-      }
-
-      setIsMemoModalOpen(false);
-    } catch (error) {
-      console.error("메모 저장 중 오류 발생:", error);
-      alert("메모 저장 중 문제가 발생했습니다. 다시 시도해주세요.");
-    }
-  };
-
-  // 상담 상태 변경
-  const confirmChangeConsultStatus = (consultNo, customerName) => {
-    setSelectedConsultForStatusChange({ consultNo, customerName });
-    setIsConfirmModalOpen(true);
-  };
-
-  const changeConsultStatus = async () => {
-    try {
-      const { consultNo } = selectedConsultForStatusChange;
-      const response = await axios.put(
-        `http://222.112.27.120:8001/dealer_consults/complete/${consultNo}`
-      );
-
-      setApplications((prevApplications) =>
-        prevApplications.map((app) =>
-          app.custom_consult_no === consultNo
-            ? { ...app, consult_process: "상담 완료" }
-            : app
-        )
-      );
-
-      setIsConfirmModalOpen(false);
-    } catch (error) {
-      console.error("상담 상태를 업데이트 하는 중 오류 발생:", error);
     }
   };
 
@@ -192,44 +145,52 @@ const DealerDashboard = () => {
             </tr>
           </thead>
           <tbody>
-            {applications
-              .filter((app) => app.consult_process === selectedTab)
-              .map((app, index) => (
-                <tr key={app.custom_consult_no}>
-                  <td>{index + 1}</td>
-                  <td>{app.customer_name}</td>
-                  <td>{app.custom_content}</td>
-                  <td>{new Date(app.created_at).toLocaleDateString()}</td>
-                  <td>
-                    {app.consult_process === "상담 시작 전" ? (
-                      <button
-                        onClick={() =>
-                          confirmChangeConsultStatus(
-                            app.custom_consult_no,
-                            app.customer_name
-                          )
-                        }
-                      >
-                        상담 완료로 변경
-                      </button>
-                    ) : (
-                      <span>상담 완료</span>
-                    )}
-                  </td>
-                  <td>
+            {currentItems.map((app, index) => (
+              <tr key={app.custom_consult_no}>
+                <td>{indexOfFirstItem + index + 1}</td>
+                <td>{app.customer_name}</td>
+                <td>{app.custom_content}</td>
+                <td>{new Date(app.created_at).toLocaleDateString()}</td>
+                <td>
+                  {app.consult_process === "상담 시작 전" ? (
                     <button
-                      onClick={() => openMemoModal(app.custom_consult_no)}
+                      onClick={() =>
+                        setSelectedConsultForStatusChange({
+                          consultNo: app.custom_consult_no,
+                          customerName: app.customer_name,
+                        })
+                      }
                     >
-                      {app.consult_process === "상담 완료" ||
-                      app.consult_hist_no
-                        ? "메모 수정"
-                        : "메모 등록"}
+                      상담 완료로 변경
                     </button>
-                  </td>
-                </tr>
-              ))}
+                  ) : (
+                    <span>상담 완료</span>
+                  )}
+                </td>
+                <td>
+                  <button onClick={() => openMemoModal(app.custom_consult_no)}>
+                    {app.consult_hist_no ? "메모 수정" : "메모 등록"}
+                  </button>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
+
+        {/* 페이지네이션 */}
+        <div className="pagination">
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+            <button
+              key={page}
+              className={`pagination-button ${
+                currentPage === page ? "active" : ""
+              }`}
+              onClick={() => handlePageChange(page)}
+            >
+              {page}
+            </button>
+          ))}
+        </div>
       </div>
 
       {isMemoModalOpen && (
@@ -239,15 +200,13 @@ const DealerDashboard = () => {
           memoContent={memoContent}
           onChangeMemoContent={setMemoContent}
           onClose={closeMemoModal}
-          onSave={saveMemo}
-          isEditMode={!!selectedConsult?.consult_hist_no}
         />
       )}
 
       <CompleteCheck
         isOpen={isConfirmModalOpen}
         customerName={selectedConsultForStatusChange?.customerName}
-        onConfirm={changeConsultStatus}
+        onConfirm={() => setIsConfirmModalOpen(false)}
         onCancel={() => setIsConfirmModalOpen(false)}
       />
     </div>
