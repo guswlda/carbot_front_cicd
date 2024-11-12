@@ -1,0 +1,69 @@
+/* 모달 오버레이 */
+.complete-check-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+/* 모달 콘텐츠 */
+.complete-check-modal-content {
+  background-color: #f9f9f9;
+  padding: 20px 30px;
+  width: 90%;
+  max-width: 400px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  position: relative;
+}
+
+/* 텍스트 스타일 */
+.complete-check-modal-content h3 {
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 20px; /* 텍스트와 버튼 간의 간격 */
+  line-height: 1.5;
+  word-break: keep-all; /* 한 줄로 유지 */
+  white-space: normal; /* 텍스트 줄바꿈 허용 */
+  text-align: center; /* 텍스트 가운데 정렬 */
+}
+
+/* 버튼 컨테이너 */
+.complete-check-button-group {
+  display: flex;
+  justify-content: space-evenly; /* 버튼 간격을 균등하게 배치 */
+  gap: 20px; /* 버튼 간격 */
+  margin-top: 20px; /* 텍스트와 버튼 그룹 간격 */
+}
+
+/* 공통 버튼 스타일 */
+.complete-check-modal-content button {
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 16px; /* 버튼 텍스트 크기 */
+  font-weight: bold;
+  cursor: pointer;
+  min-width: 120px; /* 버튼 최소 너비 */
+  max-width: 150px; /* 버튼 최대 너비 */
+  text-align: center;
+}
+
+/* 확인 버튼 */
+.complete-check-confirm {
+  background-color: #1e90ff;
+  color: white;
+}
+
+/* 취소 버튼 */
+.complete-check-cancel {
+  background-color: #f44336;
+  color: white;
+}

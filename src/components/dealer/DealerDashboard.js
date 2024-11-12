@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./DealerDashboard.css";
 import MemoModal from "./modal/memoModal";
+import CompleteCheck from "./modal/completeCheck";
 
 const DealerDashboard = () => {
   const [dealerName, setDealerName] = useState("딜러 이름 로딩 중...");
@@ -243,34 +244,12 @@ const DealerDashboard = () => {
         />
       )}
 
-      {isConfirmModalOpen && (
-        <div
-          className="dealer-dashboard-modal-overlay"
-          onClick={() => setIsConfirmModalOpen(false)}
-        >
-          <div
-            className="dealer-dashboard-modal-content"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <h3>
-              '{selectedConsultForStatusChange?.customerName}'님의 상담을
-              완료하시겠습니까?
-            </h3>
-            <button
-              onClick={changeConsultStatus}
-              className="dealer-dashboard-complete"
-            >
-              확인
-            </button>
-            <button
-              onClick={() => setIsConfirmModalOpen(false)}
-              className="dealer-dashboard-incomplete"
-            >
-              취소
-            </button>
-          </div>
-        </div>
-      )}
+      <CompleteCheck
+        isOpen={isConfirmModalOpen}
+        customerName={selectedConsultForStatusChange?.customerName}
+        onConfirm={changeConsultStatus}
+        onCancel={() => setIsConfirmModalOpen(false)}
+      />
     </div>
   );
 };
