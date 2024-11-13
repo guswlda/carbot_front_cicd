@@ -54,7 +54,7 @@ function MyPage() {
     const storedUserId = sessionStorage.getItem('userId');
     if (storedUserId) {
       axios
-        .get(`http://localhost:8001/user_email/${storedUserId}`)
+        .get(`http://222.112.27.120:8001/user_email/${storedUserId}`)
         .then((response) => {
           const { email, userId } = response.data;
 
@@ -82,7 +82,7 @@ function MyPage() {
     const fetchConsultationData = async () => {
       try {
         const response = await fetch(
-          `http://localhost:8001/consultations/${userId}`
+          `http://222.112.27.120:8001/consultations/${userId}`
         );
         const data = await response.json();
         setConsultationData(data);
@@ -108,7 +108,7 @@ function MyPage() {
     console.log('Entered Password:', password);
 
     try {
-      const response = await axios.post('http://localhost:8001/cumstom_edit', {
+      const response = await axios.post('http://222.112.27.120:8001/cumstom_edit', {
         storeadUserId: storedUserId,
         password: password,
       });
@@ -145,7 +145,7 @@ function MyPage() {
       console.log('전송할 새 비밀번호:', password);
 
       // 새 비밀번호를 백엔드로 전송
-      const response = await axios.post('http://localhost:8001/update_pass', {
+      const response = await axios.post('http://222.112.27.120:8001/update_pass', {
         customer_id: userId,
         new_password: password, // 새 비밀번호
       });
