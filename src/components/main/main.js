@@ -128,6 +128,17 @@ const Main = () => {
     setCurrentSlide((prevSlide) => (prevSlide + 1) % videos.length);
   };
 
+  // 일시정지/재생 버튼
+  const handlePlayPause = () => {
+    const currentVideo = videoRefs.current[currentSlide];
+    if (isPlaying) {
+      currentVideo.pause();
+    } else {
+      currentVideo.play();
+    }
+    setIsPlaying(!isPlaying);
+  };
+
   // 이전 슬라이드로 이동
   const handlePrev = () => {
     setCurrentSlide(
@@ -167,6 +178,13 @@ const Main = () => {
           </button>
           <button className="next-button" onClick={handleNext}>
             <IoIosArrowForward />
+          </button>
+        </div>
+
+        {/* Play/Pause Button */}
+        <div className="play-pause-button-container">
+          <button className="play-pause-button" onClick={handlePlayPause}>
+            {isPlaying ? "일시정지" : "재생"}
           </button>
         </div>
 

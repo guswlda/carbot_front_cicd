@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import './DealerManagement.css';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import "./DealerManagement.css";
 
 const DealerManagement = () => {
   const [dealers, setDealers] = useState([]); // 전체 딜러 데이터
   const [currentPage, setCurrentPage] = useState(1); // 현재 페이지
   const [selectedDealer, setSelectedDealer] = useState(null);
-  const [newPhone, setNewPhone] = useState(''); // 수정할 핸드폰 번호 상태
+  const [newPhone, setNewPhone] = useState(""); // 수정할 핸드폰 번호 상태
   const [isEditing, setIsEditing] = useState(false); // 전화번호 수정 가능 여부 상태
   const dealersPerPage = 5; // 한 페이지에 보여줄 딜러 수
 
@@ -38,17 +38,17 @@ const DealerManagement = () => {
               : dealer
           )
         );
-        alert('딜러 정보가 수정되었습니다.');
+        alert("딜러 정보가 수정되었습니다.");
         handleCloseModal();
       }
     } catch (error) {
-      console.error('Error updating dealer phone number:', error);
+      console.error("Error updating dealer phone number:", error);
     }
   };
 
   const handleCloseModal = () => {
     setSelectedDealer(null);
-    setNewPhone('');
+    setNewPhone("");
     setIsEditing(false);
   };
 
@@ -57,11 +57,11 @@ const DealerManagement = () => {
     const fetchDealers = async () => {
       try {
         const response = await axios.get(
-          'http://222.112.27.120:8001/all_dealers'
+          "http://222.112.27.120:8001/all_dealers"
         );
         setDealers(response.data.users); // 백엔드 응답의 users 키 사용
       } catch (error) {
-        console.error('Error fetching dealer data:', error);
+        console.error("Error fetching dealer data:", error);
       }
     };
 
@@ -81,9 +81,9 @@ const DealerManagement = () => {
   };
 
   return (
-    <div className='dealer-management'>
-      <h2 className='dealer-management-title'>딜러 관리</h2>
-      <table className='dealer-table'>
+    <div className="dealer-management">
+      <h2 className="dealer-management-title">딜러 관리</h2>
+      <table className="dealer-table">
         <thead>
           <tr>
             <th>번호</th>
@@ -99,7 +99,7 @@ const DealerManagement = () => {
               <td>{indexOfFirstDealer + index + 1}</td>
               <td>{dealer.dealer_name}</td>
               <td>{dealer.dealer_phone}</td>
-              <td>{dealer.status ? '활성' : '비활성'}</td>
+              <td>{dealer.status ? "활성" : "비활성"}</td>
               <td>
                 <button onClick={() => handleEditClick(dealer)}>수정</button>
               </td>
@@ -108,12 +108,12 @@ const DealerManagement = () => {
         </tbody>
       </table>
 
-      <div className='pagination'>
+      <div className="pagination">
         {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
           <button
             key={page}
             className={`pagination-button ${
-              page === currentPage ? 'active' : ''
+              page === currentPage ? "active" : ""
             }`}
             onClick={() => handlePageChange(page)}
           >
@@ -124,10 +124,10 @@ const DealerManagement = () => {
 
       {/* 딜러 수정 모달 */}
       {selectedDealer && (
-        <div className='modal-overlay' onClick={handleCloseModal}>
-          <div className='modal-content' onClick={(e) => e.stopPropagation()}>
+        <div className="modal-overlay" onClick={handleCloseModal}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <h3>딜러 정보 수정</h3>
-            <table className='modal-table'>
+            <table className="modal-table">
               <tbody>
                 <tr>
                   <td>이름</td>
@@ -137,28 +137,28 @@ const DealerManagement = () => {
                   <td>전화번호</td>
                   <td>
                     <input
-                      type='text'
+                      type="text"
                       value={newPhone}
                       onChange={handlePhoneChange}
                       disabled={!isEditing}
-                      className={`phone-input ${isEditing ? 'editing' : ''}`}
+                      className={`phone-input ${isEditing ? "editing" : ""}`}
                     />
                   </td>
                 </tr>
                 <tr>
                   <td>상태</td>
-                  <td>{selectedDealer.status ? '활성' : '비활성'}</td>
+                  <td>{selectedDealer.status ? "활성" : "비활성"}</td>
                 </tr>
               </tbody>
             </table>
-            <div className='modal-buttons'>
+            <div className="modal-buttons">
               <button
-                className='edit-button'
+                className="edit-button"
                 onClick={() => setIsEditing(true)}
               >
                 수정
               </button>
-              <button className='save-button' onClick={handleSavePhone}>
+              <button className="save-button" onClick={handleSavePhone}>
                 저장
               </button>
             </div>
