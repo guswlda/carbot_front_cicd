@@ -2,8 +2,26 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import Eximage from "../../images/genesis.png"; // 이미지 경로 설정
+import Grandeur from "../../images/grandeur.png";
+import Avante from "../../images/avante.png";
+import Palisade from "../../images/palisade.png";
 import "./mypage.css";
 import Proposal from "./modal/proposal";
+
+const carData = [
+  {
+    image: Grandeur,
+    modelName: "Grandeur",
+  },
+  {
+    image: Avante,
+    modelName: "Avante Hybrid",
+  },
+  {
+    image: Palisade,
+    modelName: "Palisade",
+  },
+];
 
 function MyPage() {
   const navigate = useNavigate(); // 페이지 이동을 위한 useNavigate hook
@@ -158,7 +176,7 @@ function MyPage() {
   // 수정 취소 함수
   const handleCancel = () => {
     alert("회원정보 수정을 취소합니다.");
-    navigate("/mypage");
+    navigate("/");
   };
 
   // 페이지에 따라 다른 콘텐츠 렌더링
@@ -167,11 +185,11 @@ function MyPage() {
       case "interest":
         return (
           <div className="mypage-container">
-            {[1, 2, 3].map((_, index) => (
+            {carData.map((car, index) => (
               <div className="mypage-card" key={index}>
-                <img src={Eximage} alt="GV80 coupe" />
+                <img src={car.image} alt={car.modelName} />
                 <div className="mypage-info">
-                  <p>모델명: GV80 coupe</p>
+                  <p>모델명: {car.modelName}</p>
                   <button
                     onClick={() => setIsModalOpen(true)}
                     className="proposal-button"

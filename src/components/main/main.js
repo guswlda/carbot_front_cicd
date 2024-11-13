@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./main.css";
-import { toast, ToastContainer } from "react-toastify";
-import { FaRegBookmark, FaBookmark } from "react-icons/fa";
 import "react-toastify/dist/ReactToastify.css";
 import Video4 from "../../video/blackcar.mp4";
 import Video3 from "../../video/dealer.mp4";
@@ -38,6 +36,35 @@ const Main = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false); // 재생 상태 관리
   const videoRefs = useRef([]); // 각 비디오 요소를 참조할 배열
+  const bestCarRef = useRef(null);
+  const [lastScrollY, setLastScrollY] = useState(0);
+  // const [hasScrolled, setHasScrolled] = useState(false);
+
+  const handleWheel = (event) => {
+    const scrollDirection = event.deltaY; // 스크롤 방향 (양수: 아래로, 음수: 위로)
+
+    if (scrollDirection > 0 && bestCarRef.current && window.scrollY === 0) {
+      // 아래로 스크롤하고 현재 위치가 맨 위일 때만 실행
+      bestCarRef.current.scrollIntoView({ behavior: "smooth" });
+    } else if (scrollDirection < 0 && window.scrollY > 0) {
+      // 위로 스크롤 시 상태를 초기화 (필요시 추가 작업 가능)
+      setLastScrollY(window.scrollY);
+    }
+  };
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY < lastScrollY) {
+        // 스크롤이 위로 올라갔을 경우
+        setLastScrollY(window.scrollY);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [lastScrollY]);
 
   // IntersectionObserver 설정
   useEffect(() => {
@@ -114,8 +141,7 @@ const Main = () => {
   };
 
   return (
-    <div className="main-container">
-      <ToastContainer />
+    <div className="main-container" onWheel={handleWheel}>
       {/* video slider section */}
       <section className="video-section">
         <div className="main-video-slider">
@@ -157,7 +183,7 @@ const Main = () => {
       </section>
 
       {/* best-car section */}
-      <section className="best-car">
+      <section className="best-car-section" ref={bestCarRef}>
         <p className="bestcar-text">BEST CAR</p>
         <div className="main-car-container">
           {carData.map((car, index) => (

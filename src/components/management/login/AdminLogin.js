@@ -56,7 +56,7 @@ const AdminLogin = () => {
           sessionStorage.setItem("userType", userType); // userType 저장
 
           window.dispatchEvent(new Event("storage"));
-          
+
           alert("관리자 로그인에 성공했습니다.");
           navigate("/AdminDashboard"); // 성공 시 관리자 대시보드로 이동
         } else {

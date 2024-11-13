@@ -97,6 +97,11 @@
   background-color: #ff4500;
 }
 
+.best-car-section {
+  position: relative;
+  height: 864px;
+}
+
 .bestcar-text {
   color: white;
   display: flex;
@@ -106,10 +111,12 @@
 }
 
 .main-car-container {
+  width: 80%;
   display: flex;
   justify-content: space-around;
   align-items: center;
-  margin: 100px;
+  margin-top: 200px;
+  margin-left: 100px;
 }
 
 .main-card {

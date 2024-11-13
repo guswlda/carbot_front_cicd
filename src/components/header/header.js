@@ -66,6 +66,9 @@ const Header = () => {
             )}
             {userType === "admin" && (
               <>
+                 <Link to="/AdminDashboard" className="header-link">
+                  관리자 페이지
+                </Link>
                 <button
                   onClick={handleLogout}
                   className="header-link logout-button"
@@ -76,6 +79,9 @@ const Header = () => {
             )}
             {userType === "dealer" && (
               <>
+                 <Link to="/DealerDashboard" className="header-link">
+                  딜러 페이지
+                </Link>
                 <button
                   onClick={handleLogout}
                   className="header-link logout-button"
