@@ -1,5 +1,6 @@
 import React from "react";
 import "./Consultations.css";
+import { MdOutlineClose } from "react-icons/md";
 
 const ConsultationModal = ({ consultation, onClose }) => {
   console.log("Modal consultation data:", consultation); // 데이터 전달 확인
@@ -28,8 +29,8 @@ const ConsultationModal = ({ consultation, onClose }) => {
           <strong>상담 내용:</strong>
           <p>{consultation.consult_content || "메모가 없습니다."}</p>
         </div>
-        <button onClick={onClose} className="modal-close-button">
-          닫기
+        <button onClick={onClose} className="consultations-close-button">
+          <MdOutlineClose />
         </button>
       </div>
     </div>

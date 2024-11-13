@@ -1,34 +1,36 @@
-import React, { useState, useEffect, useRef } from "react";
-import "./main.css";
-import "react-toastify/dist/ReactToastify.css";
-import Video4 from "../../video/blackcar.mp4";
-import Video3 from "../../video/dealer.mp4";
-import Video1 from "../../video/graycar.mp4";
-import Video2 from "../../video/redcar.mp4";
-import Grandeur from "../../images/grandeur.png";
-import Avante from "../../images/avante.png";
-import Palisade from "../../images/palisade.png";
-import { Link } from "react-router-dom";
-import { IoIosArrowForward } from "react-icons/io";
-import { IoIosArrowBack } from "react-icons/io";
+import React, { useState, useEffect, useRef } from 'react';
+import './main.css';
+import 'react-toastify/dist/ReactToastify.css';
+import Video4 from '../../video/blackcar.mp4';
+import Video3 from '../../video/dealer.mp4';
+import Video1 from '../../video/graycar.mp4';
+import Video2 from '../../video/redcar.mp4';
+import Grandeur from '../../images/grandeur.png';
+import Avante from '../../images/avante.png';
+import Palisade from '../../images/palisade.png';
+import { Link } from 'react-router-dom';
+import { IoIosArrowForward } from 'react-icons/io';
+import { IoIosArrowBack } from 'react-icons/io';
+import { IoPause } from 'react-icons/io5';
+import { IoPlay } from 'react-icons/io5';
 
 const videos = [Video1, Video2, Video3, Video4];
 
 const carData = [
   {
     image: Grandeur,
-    modelName: "Grandeur",
-    link: "/MainCarInfo/Grandeur",
+    modelName: 'Grandeur',
+    link: '/MainCarInfo/Grandeur',
   },
   {
     image: Avante,
-    modelName: "Avante Hybrid",
-    link: "/MainCarInfo/Avante",
+    modelName: 'Avante Hybrid',
+    link: '/MainCarInfo/Avante',
   },
   {
     image: Palisade,
-    modelName: "Palisade",
-    link: "/MainCarInfo/Palisade",
+    modelName: 'Palisade',
+    link: '/MainCarInfo/Palisade',
   },
 ];
 
@@ -45,7 +47,7 @@ const Main = () => {
 
     if (scrollDirection > 0 && bestCarRef.current && window.scrollY === 0) {
       // 아래로 스크롤하고 현재 위치가 맨 위일 때만 실행
-      bestCarRef.current.scrollIntoView({ behavior: "smooth" });
+      bestCarRef.current.scrollIntoView({ behavior: 'smooth' });
     } else if (scrollDirection < 0 && window.scrollY > 0) {
       // 위로 스크롤 시 상태를 초기화 (필요시 추가 작업 가능)
       setLastScrollY(window.scrollY);
@@ -60,9 +62,9 @@ const Main = () => {
       }
     };
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener('scroll', handleScroll);
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener('scroll', handleScroll);
     };
   }, [lastScrollY]);
 
@@ -82,7 +84,7 @@ const Main = () => {
             video
               .play()
               .then(() => setIsPlaying(true))
-              .catch((error) => console.log("비디오 재생 오류:", error));
+              .catch((error) => console.log('비디오 재생 오류:', error));
           }
         } else {
           // 비디오가 화면 밖으로 나가고 재생 중인 경우만 pause() 호출
@@ -152,48 +154,48 @@ const Main = () => {
   };
 
   return (
-    <div className="main-container" onWheel={handleWheel}>
+    <div className='main-container' onWheel={handleWheel}>
       {/* video slider section */}
-      <section className="video-section">
-        <div className="main-video-slider">
+      <section className='video-section'>
+        <div className='main-video-slider'>
           {videos.map((video, index) => (
             <video
               key={index}
               ref={(el) => (videoRefs.current[index] = el)} // 비디오 요소 참조 저장
               className={`background-video ${
-                index === currentSlide ? "active" : ""
+                index === currentSlide ? 'active' : ''
               }`}
               autoPlay
               loop={false}
               muted
               playsInline
               onEnded={handleVideoEnded} // 비디오가 끝나면 다음 슬라이드로 이동
-              style={{ display: index === currentSlide ? "block" : "none" }}
+              style={{ display: index === currentSlide ? 'block' : 'none' }}
             >
-              <source src={video} type="video/mp4" />
+              <source src={video} type='video/mp4' />
             </video>
           ))}
-          <button className="prev-button" onClick={handlePrev}>
+          <button className='prev-button' onClick={handlePrev}>
             <IoIosArrowBack />
           </button>
-          <button className="next-button" onClick={handleNext}>
+          <button className='next-button' onClick={handleNext}>
             <IoIosArrowForward />
           </button>
         </div>
 
         {/* Play/Pause Button */}
-        <div className="play-pause-button-container">
-          <button className="play-pause-button" onClick={handlePlayPause}>
-            {isPlaying ? "일시정지" : "재생"}
+        <div className='play-pause-button-container'>
+          <button className='play-pause-button' onClick={handlePlayPause}>
+            {isPlaying ? <IoPause /> : <IoPlay />}
           </button>
         </div>
 
         {/* Dot navigation */}
-        <div className="dot-navigation">
+        <div className='dot-navigation'>
           {videos.map((_, index) => (
             <button
               key={index}
-              className={`dot ${index === currentSlide ? "active" : ""}`}
+              className={`dot ${index === currentSlide ? 'active' : ''}`}
               onClick={() => handleDotClick(index)}
             />
           ))}
@@ -201,19 +203,19 @@ const Main = () => {
       </section>
 
       {/* best-car section */}
-      <section className="best-car-section" ref={bestCarRef}>
-        <p className="bestcar-text">BEST CAR</p>
-        <div className="main-car-container">
+      <section className='best-car-section' ref={bestCarRef}>
+        <p className='bestcar-text'>BEST CAR</p>
+        <div className='main-car-container'>
           {carData.map((car, index) => (
-            <div key={index} className="main-card">
+            <div key={index} className='main-card'>
               <img src={car.image} alt={`차량 이미지 ${index + 1}`} />
-              <div className="main-info">
-                <div className="main-model-info">
+              <div className='main-info'>
+                <div className='main-model-info'>
                   <p>{car.modelName}</p>
                   <p>{car.description}</p>
                 </div>
-                <Link to={car.link} className="main-links">
-                  <button className="main-info-button">자세히 보기</button>
+                <Link to={car.link} className='main-links'>
+                  <button className='main-info-button'>자세히 보기</button>
                 </Link>
               </div>
             </div>

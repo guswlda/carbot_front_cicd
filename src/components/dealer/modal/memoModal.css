@@ -76,10 +76,6 @@
   font-size: 14px;
 }
 
-.memo-save-button:hover {
-  background-color: #218838;
-}
-
 .memo-edit-button {
   background-color: orange;
   color: white;

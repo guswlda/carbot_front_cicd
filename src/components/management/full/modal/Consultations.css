@@ -12,6 +12,7 @@
 }
 
 .consultations-modal-content {
+  position: relative;
   background-color: #ffffff;
   border-radius: 10px;
   padding: 20px;
@@ -51,20 +52,18 @@
   margin-bottom: 10px;
 }
 
-.consultations-modal-close-button {
-  display: block;
-  background-color: #f44336;
-  color: #fff;
+.consultations-close-button {
+  position: absolute;
+  top: 10px; /* 모달 내부 상단에서 10px 떨어짐 */
+  right: 10px; /* 모달 내부 우측에서 10px 떨어짐 */
+  background: none;
   border: none;
-  padding: 10px 15px;
-  border-radius: 5px;
   cursor: pointer;
-  margin: 15px auto 0;
-  font-size: 16px;
-  text-align: center;
-  width: 100px;
+  font-size: 1.5rem; /* 버튼 크기 조정 */
+  color: #666;
 }
 
-.consultations-modal-close-button:hover {
-  background-color: #d32f2f;
+.consultations-close-button:hover {
+  background: none; /* hover 효과 제거 */
+  color: #000; /* 기본 텍스트 색상 유지 */
 }

@@ -73,19 +73,27 @@ const Consultations = () => {
                 <th>접수된 상담</th>
                 <th>담당자</th>
                 <th>작성일</th>
+                <th>상세보기</th>
               </tr>
             </thead>
             <tbody>
               {currentItems.map((consultation, index) => (
-                <tr
-                  key={`${consultation.custom_consult_no}-${index}`}
-                  onClick={() => handleRowClick(consultation)}
-                >
+                <tr key={`${consultation.custom_consult_no}-${index}`}>
                   <td>{indexOfFirstItem + index + 1}</td>
                   <td>{consultation.customer_name || "정보 없음"}</td>
                   <td>{consultation.dealer_name || "정보 없음"}</td>
                   <td>
-                    {new Date(consultation.created_at).toLocaleDateString()}
+                    {consultation.created_at
+                      ? new Date(consultation.created_at).toLocaleDateString()
+                      : "정보 없음"}
+                  </td>
+                  <td>
+                    <button
+                      onClick={() => handleRowClick(consultation)}
+                      className="details-button"
+                    >
+                      자세히 보기
+                    </button>
                   </td>
                 </tr>
               ))}
