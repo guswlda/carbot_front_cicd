@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "./notification.css";
 
 const Notification = () => {
@@ -8,7 +8,6 @@ const Notification = () => {
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const noticesPerPage = 9;
-  const { notice_no } = useParams();
   const navigate = useNavigate();
 
   const formatDate = (dateString) => {
@@ -49,10 +48,15 @@ const Notification = () => {
   }, []);
 
   const handleNoticeClick = (notice_no) => {
+    // 공지사항 번호로 정확히 매칭
     const selectedNotice = notices.find(
-      (notice) => notice.notice_no === notice_no
+      (notice) => parseInt(notice.notice_no) === parseInt(notice_no)
     );
-    setNoticeDetail(selectedNotice);
+    if (selectedNotice) {
+      setNoticeDetail(selectedNotice);
+    } else {
+      console.error("선택된 공지사항을 찾을 수 없습니다.");
+    }
   };
 
   const handleBackToList = () => {
@@ -94,9 +98,9 @@ const Notification = () => {
             {currentNotices.length > 0 ? (
               currentNotices.map((notice) => (
                 <div
-                  key={notice.notice_no}
+                  key={notice.notice_no} // 고유 key로 notice_no 사용
                   className="notice-card"
-                  onClick={() => handleNoticeClick(notice.notice_no)}
+                  onClick={() => handleNoticeClick(notice.notice_no)} // 클릭한 notice_no 전달
                 >
                   <h3>{notice.notice_title}</h3>
                   <p className="notice-date">{formatDate(notice.created_at)}</p>

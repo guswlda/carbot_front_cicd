@@ -9,8 +9,8 @@ const DealerDashboard = () => {
   const [dealerNo, setDealerNo] = useState(null);
   const [selectedTab, setSelectedTab] = useState("상담 시작 전");
   const [applications, setApplications] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1); // 현재 페이지
-  const itemsPerPage = 5; // 페이지당 표시 항목 수
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
   const [isMemoModalOpen, setIsMemoModalOpen] = useState(false);
   const [memoContent, setMemoContent] = useState("");
   const [selectedConsult, setSelectedConsult] = useState(null);
@@ -19,7 +19,6 @@ const DealerDashboard = () => {
   const [selectedConsultForStatusChange, setSelectedConsultForStatusChange] =
     useState(null);
 
-  // 딜러 이름 가져오기
   useEffect(() => {
     const fetchDealerName = async () => {
       const dealerId = sessionStorage.getItem("userId");
@@ -38,7 +37,6 @@ const DealerDashboard = () => {
     fetchDealerName();
   }, []);
 
-  // 상담 데이터 가져오기
   useEffect(() => {
     if (!dealerNo) return;
     const fetchConsultData = async () => {
@@ -55,12 +53,10 @@ const DealerDashboard = () => {
     fetchConsultData();
   }, [dealerNo]);
 
-  // 탭 변경 시 페이지 초기화
   useEffect(() => {
     setCurrentPage(1);
   }, [selectedTab]);
 
-  // 페이지네이션 계산
   const filteredApplications = applications.filter(
     (app) => app.consult_process === selectedTab
   );
@@ -74,7 +70,7 @@ const DealerDashboard = () => {
 
   const handlePageChange = (page) => {
     if (page > 0 && page <= totalPages) {
-      setCurrentPage(page); // 페이지 변경
+      setCurrentPage(page);
     }
   };
 
@@ -154,12 +150,13 @@ const DealerDashboard = () => {
                 <td>
                   {app.consult_process === "상담 시작 전" ? (
                     <button
-                      onClick={() =>
+                      onClick={() => {
                         setSelectedConsultForStatusChange({
                           consultNo: app.custom_consult_no,
                           customerName: app.customer_name,
-                        })
-                      }
+                        });
+                        setIsConfirmModalOpen(true); // 모달 열기
+                      }}
                     >
                       상담 완료로 변경
                     </button>
@@ -177,7 +174,6 @@ const DealerDashboard = () => {
           </tbody>
         </table>
 
-        {/* 페이지네이션 */}
         <div className="pagination">
           {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
             <button
@@ -206,7 +202,23 @@ const DealerDashboard = () => {
       <CompleteCheck
         isOpen={isConfirmModalOpen}
         customerName={selectedConsultForStatusChange?.customerName}
-        onConfirm={() => setIsConfirmModalOpen(false)}
+        onConfirm={async () => {
+          try {
+            const response = await axios.put(
+              `http://222.112.27.120:8001/process_complete/${selectedConsultForStatusChange.consultNo}`
+            );
+            console.log(response.data.message);
+
+            const updatedData = await axios.get(
+              `http://222.112.27.120:8001/dealer_consults/${dealerNo}`
+            );
+            setApplications(updatedData.data);
+
+            setIsConfirmModalOpen(false);
+          } catch (error) {
+            console.error("상담 완료 처리 중 오류 발생:", error);
+          }
+        }}
         onCancel={() => setIsConfirmModalOpen(false)}
       />
     </div>

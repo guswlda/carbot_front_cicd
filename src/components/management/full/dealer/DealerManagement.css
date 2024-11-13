@@ -86,3 +86,22 @@
   padding: 5px 10px;
   cursor: pointer;
 }
+
+.phone-input {
+  text-align: center;
+  border: none;
+  background-color: transparent;
+  color: inherit;
+  cursor: default;
+  width: 100%;
+}
+
+.phone-input.editing {
+  background-color: white;
+  border: 1px solid #ccc;
+  cursor: text;
+}
+
+.phone-input:disabled {
+  color: black;
+}
