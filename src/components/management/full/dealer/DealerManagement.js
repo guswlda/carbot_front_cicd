@@ -34,7 +34,7 @@ const DealerManagement = () => {
   const handleSaveInfo = async () => {
     try {
       const response = await axios.patch(
-        `http://localhost:8001/update_dealer_info/${selectedDealer.dealer_no}`,
+        `http://222.112.27.120:8001/update_dealer_info/${selectedDealer.dealer_no}`,
         {
           dealer_phone: newPhone,
           dealer_id: newId,
@@ -69,7 +69,7 @@ const DealerManagement = () => {
     // 백엔드에서 딜러 데이터 가져오기
     const fetchDealers = async () => {
       try {
-        const response = await axios.get('http://localhost:8001/all_dealers');
+        const response = await axios.get('http://222.112.27.120:8001/all_dealers');
         setDealers(response.data.users); // 백엔드 응답의 users 키 사용
       } catch (error) {
         console.error('Error fetching dealer data:', error);
