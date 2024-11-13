@@ -22,47 +22,42 @@ function Proposal({ onClose }) {
 
   const handleSubmit = async () => {
     const userId = sessionStorage.getItem("userId"); // 세션 스토리지에서 userId 가져오기
-    if (userId) {
-      console.log("userId is:", userId);
-    } else {
-      console.log("No userId found in session storage.");
-    }
-    const consultContent = customerRequest; // 요청 사항 가져오기
 
-    if (!userId || !consultContent) {
-      alert("필수 입력 값이 없습니다. 내용을 확인해주세요.");
+    if (!userId) {
+      alert("로그인이 필요합니다. 다시 로그인해주세요.");
       return;
     }
 
+    const consultContent = customerRequest || "요청사항 없음";
+
     try {
-      // Backend로 POST 요청
       const response = await axios.post(
         "http://222.112.27.120:8001/submit_consult",
         {
-          userId: userId, // 로그인된 사용자 ID
-          consult_content: consultContent, // 고객 요청 사항
+          userId: userId,
+          consult_content: consultContent,
         }
       );
 
       // 요청 성공 시 처리
       console.log("Data from backend:", response.data);
       alert(
-        `감사합니다! 딜러 '${dealerName}'님이 배정되었습니다. 곧 상담 전화 드리겠습니다.`
+        `감사합니다! 딜러 '${
+          response.data.dealerName || "미정"
+        }'님이 배정되었습니다. 곧 상담 전화 드리겠습니다.`
       );
 
-      // 모달 닫기
-      onClose();
+      if (typeof onClose === "function") {
+        onClose();
+      }
     } catch (error) {
-      // 요청 실패 시 에러 처리
       console.error("Error submitting request:", error);
 
       if (error.response) {
-        // 서버에서 반환된 에러 응답이 있는 경우
         const errorMessage =
           error.response.data?.error || "구매 상담 신청에 실패했습니다.";
         alert(errorMessage);
       } else {
-        // 네트워크 오류 또는 기타 이유
         alert("네트워크 오류가 발생했습니다. 다시 시도해 주세요.");
       }
     }

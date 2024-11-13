@@ -106,6 +106,40 @@ const DealerDashboard = () => {
     }
   };
 
+  const handleSaveMemo = async () => {
+    try {
+      const { custom_consult_no, consult_hist_no } = selectedConsult;
+      if (consult_hist_no) {
+        // 메모 수정
+        await axios.put(
+          `http://222.112.27.120:8001/consult_hist/${consult_hist_no}`,
+          {
+            consult_content: memoContent,
+          }
+        );
+        alert("메모가 성공적으로 수정되었습니다.");
+      } else {
+        // 메모 등록
+        await axios.post("http://222.112.27.120:8001/consult_hist", {
+          custom_consult_no: custom_consult_no,
+          consult_content: memoContent,
+        });
+        alert("메모가 성공적으로 등록되었습니다.");
+      }
+
+      // 메모 저장 후 상담 데이터 갱신
+      const updatedData = await axios.get(
+        `http://222.112.27.120:8001/dealer_consults/${dealerNo}`
+      );
+      setApplications(updatedData.data);
+
+      setIsMemoModalOpen(false);
+    } catch (error) {
+      console.error("메모 저장 중 오류 발생:", error);
+      alert("메모 저장 중 오류가 발생했습니다.");
+    }
+  };
+
   const closeMemoModal = () => {
     setIsMemoModalOpen(false);
     setMemoContent("");
@@ -196,6 +230,8 @@ const DealerDashboard = () => {
           memoContent={memoContent}
           onChangeMemoContent={setMemoContent}
           onClose={closeMemoModal}
+          onSave={handleSaveMemo} // handleSaveMemo 전달
+          isEditMode={!!selectedConsult?.consult_hist_no} // 메모 수정 여부 판단
         />
       )}
 

@@ -9,7 +9,7 @@ const MemoModal = ({
   onChangeMemoContent,
   onClose,
   onSave,
-  isEditMode, // 등록/수정 모드 구분
+  isEditMode,
 }) => {
   if (!isOpen || !consultDetails) return null;
 
@@ -28,13 +28,17 @@ const MemoModal = ({
         </div>
         <textarea
           className="memo-textarea"
-          value={memoContent} // 상태를 표시
-          onChange={(e) => onChangeMemoContent(e.target.value)} // 사용자 입력 반영
+          value={memoContent}
+          onChange={(e) => onChangeMemoContent(e.target.value)}
           placeholder="메모를 작성하세요."
         />
-
-        <button className="memo-save-button" onClick={onSave}>
-          {isEditMode ? "메모 등록" : "메모 수정"}
+        <button
+          className={`memo-save-button ${
+            isEditMode ? "memo-edit-button" : "memo-register-button"
+          }`}
+          onClick={onSave}
+        >
+          {isEditMode ? "메모 수정" : "메모 등록"}
         </button>
       </div>
     </div>
