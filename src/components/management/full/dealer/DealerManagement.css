@@ -87,7 +87,9 @@
   cursor: pointer;
 }
 
-.phone-input {
+/* 입력란 스타일 - 핸드폰과 아이디 동일한 스타일 적용 */
+.phone-input,
+.id-input {
   text-align: center;
   border: none;
   background-color: transparent;
@@ -96,12 +98,14 @@
   width: 100%;
 }
 
-.phone-input.editing {
+.phone-input.editing,
+.id-input.editing {
   background-color: white;
   border: 1px solid #ccc;
   cursor: text;
 }
 
-.phone-input:disabled {
+.phone-input:disabled,
+.id-input:disabled {
   color: black;
 }

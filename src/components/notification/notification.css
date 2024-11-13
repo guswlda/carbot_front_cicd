@@ -91,6 +91,20 @@
   background-color: #333;
 }
 
+.notice-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.notice-category.event {
+  color: #007bff; /* 파란색 */
+}
+
+.notice-category.announcement {
+  color: #ff4500; /* 주황색 */
+}
+
 /* 페이지네이션 스타일 */
 .pagination {
   margin-top: 20px;

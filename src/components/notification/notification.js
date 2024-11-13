@@ -48,7 +48,6 @@ const Notification = () => {
   }, []);
 
   const handleNoticeClick = (notice_no) => {
-    // 공지사항 번호로 정확히 매칭
     const selectedNotice = notices.find(
       (notice) => parseInt(notice.notice_no) === parseInt(notice_no)
     );
@@ -68,7 +67,6 @@ const Notification = () => {
     setCurrentPage(pageNumber);
   };
 
-  // 페이지네이션을 위한 데이터 계산
   const indexOfLastNotice = currentPage * noticesPerPage;
   const indexOfFirstNotice = indexOfLastNotice - noticesPerPage;
   const currentNotices = notices.slice(indexOfFirstNotice, indexOfLastNotice);
@@ -83,7 +81,18 @@ const Notification = () => {
       <h2 className="notification-title">공지사항</h2>
       {noticeDetail ? (
         <div className="notice-detail">
-          <h3>{noticeDetail.notice_title}</h3>
+          <h3>
+            {noticeDetail.notice_title}{" "}
+            <span
+              className={`notice-category ${
+                noticeDetail.notice_category === "이벤트"
+                  ? "event"
+                  : "announcement"
+              }`}
+            >
+              [{noticeDetail.notice_category}]
+            </span>
+          </h3>
           <p className="notice-date">{formatDate(noticeDetail.created_at)}</p>
           <div className="notice-content">
             <p>{noticeDetail.notice_content}</p>
@@ -98,11 +107,22 @@ const Notification = () => {
             {currentNotices.length > 0 ? (
               currentNotices.map((notice) => (
                 <div
-                  key={notice.notice_no} // 고유 key로 notice_no 사용
+                  key={notice.notice_no}
                   className="notice-card"
-                  onClick={() => handleNoticeClick(notice.notice_no)} // 클릭한 notice_no 전달
+                  onClick={() => handleNoticeClick(notice.notice_no)}
                 >
-                  <h3>{notice.notice_title}</h3>
+                  <div className="notice-card-header">
+                    <h3>{notice.notice_title}</h3>
+                    <span
+                      className={`notice-category ${
+                        notice.notice_category === "이벤트"
+                          ? "event"
+                          : "announcement"
+                      }`}
+                    >
+                      [{notice.notice_category}]
+                    </span>
+                  </div>
                   <p className="notice-date">{formatDate(notice.created_at)}</p>
                 </div>
               ))
@@ -110,7 +130,6 @@ const Notification = () => {
               <p>공지사항이 없습니다.</p>
             )}
           </div>
-          {/* 페이지네이션 */}
           <div className="pagination">
             {Array.from({ length: totalPages }, (_, index) => (
               <button
