@@ -20,7 +20,7 @@ const AdminDashboard = () => {
         const response = await axios.get(
           "http://222.112.27.120:8001/all_users"
         );
-        setCustomers(response.data.users); // 응답 데이터에서 사용자 배열 설정
+        setCustomers(response.data.users || []); // 응답 데이터에서 사용자 배열 설정
       } catch (error) {
         console.error("Error fetching customer data:", error);
       }
@@ -29,10 +29,14 @@ const AdminDashboard = () => {
     fetchCustomers();
   }, []);
 
-  // 페이지네이션 계산
+  // 현재 페이지에 표시할 데이터 계산
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+
+  // Slice를 활용하여 현재 페이지에 해당하는 데이터만 추출
   const currentItems = customers.slice(indexOfFirstItem, indexOfLastItem);
+
+  // 총 페이지 계산
   const totalPages = Math.ceil(customers.length / itemsPerPage);
 
   const handleCustomerClick = (customer) => {
@@ -44,7 +48,8 @@ const AdminDashboard = () => {
   };
 
   const handlePageChange = (page) => {
-    setCurrentPage(page); // 페이지 변경
+    // 페이지 변경 시 현재 페이지 설정
+    setCurrentPage(page);
   };
 
   return (
@@ -76,6 +81,7 @@ const AdminDashboard = () => {
               <tbody>
                 {currentItems.map((customer, index) => (
                   <tr key={customer.customer_id}>
+                    {/* 정확한 No 값 계산 */}
                     <td>{indexOfFirstItem + index + 1}</td>
                     <td>{customer.customer_id}</td>
                     <td>{customer.customer_name}</td>

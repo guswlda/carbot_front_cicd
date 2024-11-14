@@ -6,8 +6,6 @@
 /* 사이드바 스타일 */
 .sidebar {
   width: 200px;
-  background-color: #f7f7f7;
-  border-right: 1px solid #ddd;
   display: flex;
   flex-direction: column;
   padding: 1rem;
