@@ -17,10 +17,16 @@ const Header = () => {
   };
 
   useEffect(() => {
-    checkLoginStatus(); // 컴포넌트가 처음 로드될 때 로그인 상태 확인
-    window.addEventListener("storage", checkLoginStatus); // sessionStorage 변경 감지
+    checkLoginStatus(); // 초기 로그인 상태 확인
+
+    const handleStorageChange = () => {
+      checkLoginStatus(); // storage 이벤트 발생 시 상태 재확인
+    };
+
+    // sessionStorage 변경 이벤트 감지
+    window.addEventListener('storage', handleStorageChange);
     return () => {
-      window.removeEventListener("storage", checkLoginStatus); // 컴포넌트 언마운트 시 이벤트 정리
+      window.removeEventListener('storage', handleStorageChange);
     };
   }, []);
 
