@@ -168,13 +168,10 @@ function MyPage() {
       console.log('전송할 새 비밀번호:', password);
 
       // 새 비밀번호를 백엔드로 전송
-      const response = await axios.post(
-        'http://222.112.27.120:8001/update_pass',
-        {
-          customer_id: userId,
-          new_password: password, // 새 비밀번호
-        }
-      );
+      const response = await axios.post('http://localhost:8080/update_pass', {
+        customer_id: userId,
+        new_password: password, // 새 비밀번호
+      });
 
       if (response.status === 200) {
         alert('비밀번호가 변경되었습니다!');
@@ -189,10 +186,10 @@ function MyPage() {
         setIsLoggedIn(false); // 로그인 상태 false로 설정
         setUserType(''); // 사용자 유형 초기화
         alert('로그아웃 되었습니다.');
-        navigate('/'); // 홈 페이지로 이동
-
-        // 로그인 페이지로 이동
         navigate('/login');
+
+        sessionStorage.clear(); // sessionStorage 데이터 삭제
+        window.dispatchEvent(new Event('storage')); // storage 이벤트 트리거
       } else {
         alert('비밀번호 변경에 실패했습니다. 다시 시도해 주세요.');
         console.log('비밀번호 변경 실패, 상태 코드:', response.status);
