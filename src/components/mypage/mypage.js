@@ -168,7 +168,7 @@ function MyPage() {
       console.log('전송할 새 비밀번호:', password);
 
       // 새 비밀번호를 백엔드로 전송
-      const response = await axios.post('http://localhost:8080/update_pass', {
+      const response = await axios.post('http://222.112.27.120:8001/update_pass', {
         customer_id: userId,
         new_password: password, // 새 비밀번호
       });
